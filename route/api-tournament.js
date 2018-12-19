@@ -1,6 +1,6 @@
-/*** /route/api-pool.js
+/*** /route/api-tournament.js
 
-Exports a function that adds player pool API routes to the given Express app.
+Exports a function that adds player tournament API routes to the given Express app.
 
 ***/
 
@@ -9,16 +9,16 @@ var database = require( '../model' );
 
 module.exports = function( app ) {
 
-    // GET all player pools
+    // GET all tournament matches
     app.get(
-        '/api/pool/all' ,
+        '/api/tournament/all' ,
         ( request , response ) => {
             console.log();
             console.log( `# ${request.originalUrl}` );
             console.log( 'Parameters :' , request.params );
             console.log( 'Body :' , request.body );
 
-            database.pool
+            database.tournament
                 .findAll( {} )
                 .then(
                     ( result ) => {
@@ -31,16 +31,16 @@ module.exports = function( app ) {
         }
     );
 
-    // GET player pool by tournament ID
+    // GET tournament matches by tournament ID
     app.get(
-        '/api/pool/:tournamentNumber' ,
+        '/api/tournament/:tournamentNumber' ,
         ( request , response ) => {
             console.log();
             console.log( `# ${request.originalUrl}` );
             console.log( 'Parameters :' , request.params );
             console.log( 'Body :' , request.body );
 
-            database.pool
+            database.tournament
                 .findAll(
                     {
                         where : {
@@ -60,41 +60,9 @@ module.exports = function( app ) {
         }
     );
 
-    // GET player by tournament ID and player number
-    app.get(
-        '/api/pool/:tournamentNumber/:playerNumber' ,
-        ( request , response ) => {
-            console.log();
-            console.log( `# ${request.originalUrl}` );
-            console.log( 'Parameters :' , request.params );
-            console.log( 'Body :' , request.body );
-
-            database.pool
-                .findAll(
-                    {
-                        where : {
-                            tournamentNumber : {
-                                [ database.Sequelize.Op.eq ]: request.params.tournamentNumber
-                            } ,
-                            playerNumber : {
-                                [ database.Sequelize.Op.eq ]: request.params.playerNumber
-                            }
-                        }
-                    }
-                )
-                .then(
-                    ( result ) => {
-                        console.log( 'Database Result :' , result );
-                        response.json( result );
-                        console.log( 'OK.' );
-                    }
-                );
-        }
-    );
-
-    // POST new player in a pool
+    // POST new tournament matches
     app.post(
-        '/api/pool' ,
+        '/api/tournament' ,
         ( request , response ) => {
             console.log();
             console.log( `# ${request.originalUrl}` );
@@ -131,9 +99,9 @@ module.exports = function( app ) {
                             else {
                                 console.log( '' );
                                 console.log( '# else' );
-                                console.log( 'Creating pool for' , poolArray[ 0 ] );
+                                console.log( 'Creating tournament for' , poolArray[ 0 ] );
 
-                                database.pool
+                                database.tournament
                                     .create( poolArray[ 0 ] )
                                     .then(
                                         ( result ) => {
@@ -153,11 +121,11 @@ module.exports = function( app ) {
                 );
             }
 
-            var pool = request.body;
+            var tournament = request.body;
 
-            // check if pool is an Array
-            if ( pool instanceof Array ) {
-                createPools( pool )
+            // check if tournament is an Array
+            if ( tournament instanceof Array ) {
+                createPools( tournament )
                 .then(
                     () => {
                         response.json( resultBuffer );
@@ -166,8 +134,8 @@ module.exports = function( app ) {
                 );
             }
             else {
-                database.pool
-                    .create( pool )
+                database.tournament
+                    .create( tournament )
                     .then(
                         ( result ) => {
                             console.log( 'Database Result :' , result );
@@ -176,6 +144,40 @@ module.exports = function( app ) {
                         }
                     );
             }
+        }
+    );
+
+    // PUT update channel by ID
+    app.put(
+        '/api/tournament' ,
+        ( request , response ) => {
+            console.log();
+            console.log( `# ${request.originalUrl}` );
+            console.log( 'Parameters :' , request.params );
+            console.log( 'Body :' , request.body );
+
+            var tournament = request.body;
+            database.tournament
+                .update(
+                    tournament ,
+                    {
+                        where : {
+                            tournamentNumber : {
+                                [ database.Sequelize.Op.eq ]: tournament.tournamentNumber
+                            } ,
+                            matchNumber : {
+                                [ database.Sequelize.Op.eq ]: tournament.matchNumber
+                            }
+                        }
+                    }
+                )
+                .then(
+                    ( result ) => {
+                        console.log( 'Database Result :' , result );
+                        response.json( result );
+                        console.log( 'OK.' );
+                    }
+                );
         }
     );
 }

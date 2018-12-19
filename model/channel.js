@@ -7,7 +7,7 @@ A channel defines the Twitch.tv channel and the tournament currently running, if
 ***/
 
 module.exports = function( sequelize , DataTypes) {
-    var ChannelModel = sequelize.define(
+    var channelModel = sequelize.define(
         "channel" ,
         {
             channel : {
@@ -17,12 +17,12 @@ module.exports = function( sequelize , DataTypes) {
                     notEmpty : true
                 }
             } ,
-            tournamnetId : {
+            tournamentNumber : {
                 type : DataTypes.INTEGER ,
                 allowNull : true
             }
         }
     );
 
-    return ChannelModel;
+    return channelModel;
 }

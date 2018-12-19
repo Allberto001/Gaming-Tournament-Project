@@ -26,6 +26,8 @@ var addAPIRoutes = require( './route/api-channel.js' );
 addAPIRoutes( app );
 var addAPIRoutes = require( './route/api-pool.js' );
 addAPIRoutes( app );
+var addAPIRoutes = require( './route/api-tournament.js' );
+addAPIRoutes( app );
 // var addHTMLRoutes = require( './route/html.js' );
 // addHTMLRoutes( app );
 

@@ -7,10 +7,10 @@ A player pool defines the players to play in a tournament.
 ***/
 
 module.exports = function( sequelize , DataTypes) {
-    var ChannelModel = sequelize.define(
+    var poolModel = sequelize.define(
         "pool" ,
         {
-            tournamentId : {
+            tournamentNumber : {
                 type : DataTypes.INTEGER ,
                 allowNull : false ,
                 validate : {
@@ -36,5 +36,5 @@ module.exports = function( sequelize , DataTypes) {
         }
     );
 
-    return ChannelModel;
+    return poolModel;
 }
