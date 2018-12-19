@@ -1,5 +1,8 @@
-/*** fsfp-team-project-02/poc-firebase/assets/script/firebase-push.js
+/*** fsfp-team-project-02/poc-firebase/node-push.js
 ***/
+
+// Require
+var firebase = require( 'firebase' );
 
 // Initialize Firebase
 var firebaseConfig = {
@@ -43,6 +46,7 @@ firebaseDatabaseReference
     .push( message )
     .then(
         () => {
-            console.log( 'Pushed message' , JSON.stringify( message ) );
+            console.log( 'Pushed message.' );
+            console.log( 'message' , message );
         }
     );

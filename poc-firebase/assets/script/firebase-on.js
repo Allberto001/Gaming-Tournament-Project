@@ -1,4 +1,4 @@
-/*** fsfp-team-project-02/firebase-poc/assets/script/script.js
+/*** fsfp-team-project-02/poc-firebase/assets/script/script.js
 ***/
 
 // Initialize Firebase
@@ -38,7 +38,7 @@ firebaseDatabaseReference
 */
 
 // Get Firebase database (root/firebase-poc/messages)
-firebaseDatabaseReference = firebase.database().ref( 'firebase-poc/messages' ).limitToLast( 3 );
+firebaseDatabaseReference = firebase.database().ref( 'firebase-poc/messages' ).limitToLast( 1 );
 console.logValue( 'firebaseDatabaseReference.path.toString()' , firebaseDatabaseReference.path.toString() );
 
 /*
@@ -51,15 +51,22 @@ firebaseDatabaseReference
         }
     );
 */
+var globalChildSnapshot;
+
 firebaseDatabaseReference
     .on(
         'child_added' ,
         ( childSnapshot , previousChildKey ) => {
-            var childSnapshotJSON = childSnapshot.toJSON();
-            // console.logValue( 'thisKey' , childSnapshot.key );
-            console.logValue( 'childSnapshotJSON' , childSnapshotJSON );
-            console.logValue( 'timestamp' , childSnapshotJSON.timestamp );
-            console.logValue( 'message' , childSnapshotJSON.message );
-            // console.logValue( 'previousChildKey' , previousChildKey );
+            console.group( 'firebaseDatabaseReference.on()' );
+            console.logValue( 'childSnapshot' , childSnapshot );
+            console.logValue( 'previousChildKey' , previousChildKey );
+
+            var value = childSnapshot.val();
+            console.logValue( 'timestamp' , childSnapshot.val().timestamp );
+            console.logValue( 'message' , childSnapshot.val().message );
+            var messageObj = JSON.parse( childSnapshot.val().message );
+            console.logValue( 'messageObj' , messageObj );
+
+            console.groupEnd();
         }
     );
