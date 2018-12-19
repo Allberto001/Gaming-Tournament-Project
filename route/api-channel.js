@@ -31,9 +31,9 @@ module.exports = function( app ) {
         }
     );
 
-    // GET channel by ID
+    // GET channel by channel
     app.get(
-        '/api/channel/:id' ,
+        '/api/channel/:channel' ,
         ( request , response ) => {
             console.log();
             console.log( `# ${request.originalUrl}` );
@@ -44,8 +44,8 @@ module.exports = function( app ) {
                 .findOne(
                     {
                         where : {
-                            id : {
-                                [ database.Sequelize.Op.eq ]: request.params.id
+                            channel : {
+                                [ database.Sequelize.Op.eq ]: request.params.channel
                             }
                         }
                     }
