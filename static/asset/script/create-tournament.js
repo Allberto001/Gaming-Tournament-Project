@@ -1,4 +1,4 @@
-/*** create-tournament.js
+/*** /static/asset/script/create-tournament.js
 ***/
 
 

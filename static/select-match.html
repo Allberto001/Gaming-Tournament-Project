@@ -29,8 +29,11 @@
     <!-- <script></script> -->
 
     <!-- External Javascript -->
-    <script src="asset/script/jdcUtil.js" defer></script>
-    <script src="asset/script/select-match.js" defer></script>
+    <script src="/asset/script/jdcUtil.js" defer></script>
+    <script src="/asset/script/Channel.js" defer></script>
+    <script src="/asset/script/Pool.js" defer></script>
+    <script src="/asset/script/Tournament.js" defer></script>
+    <script src="/asset/script/select-match.js" defer></script>
 </head>
 
 <body>
@@ -43,39 +46,17 @@
 
             <!-- Select Match Card --->
             <div id="select-match-card" class="card">
-                <h5 class="card-header">
+                <h5 id="select-match-header" class="card-header">
                     $TOURNAMENT_NAME: Select Match
                 </h5>
-                <div class="card-body">
+                <div id="select-match-card-body" class="card-body">
 
                     <!-- Match Alert --->
-                    <div id="select-match-0-0" class="alert alert-secondary py-4">
-                        <a href="#" class="alert-link">Match $MATCH_NUMBER</a>: $PLAYER1 vs $PLAYER2
+                    <!--
+                    <div id="select-match-$TOURNAMENT_NAME-$MATCH_NUMBER" class="alert alert-secondary py-4">
+                        <a href="$TOURNAMENT_NAME/$MATCH_NUMBER/enter-match-result" class="alert-link">Match $MATCH_NUMBER</a>: $PLAYER1 vs $PLAYER2
                     </div>
-                    <!-- Match Alert --->
-
-                    <!-- Match Alert --->
-                    <div id="select-match-1-1" class="alert alert-secondary py-4">
-                        <a href="#" class="alert-link">Match 1</a>: FlaSh vs Jaedong
-                    </div>
-                    <!-- Match Alert --->
-
-                    <!-- Match Alert --->
-                    <div id="select-match-1-2" class="alert alert-secondary py-4">
-                        <a href="#" class="alert-link">Match 2</a>: Bisu vs Stork
-                    </div>
-                    <!-- Match Alert --->
-
-                    <!-- Match Alert --->
-                    <div id="select-match-1-3" class="alert alert-secondary py-4">
-                        <a href="#" class="alert-link">Match 3</a>: TBD vs TBD
-                    </div>
-                    <!-- Match Alert --->
-
-                    <!-- Match Alert --->
-                    <div id="select-match-1-4" class="alert alert-secondary py-4">
-                        <a href="#" class="alert-link">Match 4</a>: TBD vs TBD
-                    </div>
+                    -->
                     <!-- Match Alert --->
 
                 </div>

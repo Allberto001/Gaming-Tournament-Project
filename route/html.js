@@ -41,4 +41,20 @@ module.exports = function( app ) {
         }
     );
 
+    app.get(
+        '/:tournamentName/:matchNumber/enter-match-result' ,
+        ( request , response ) => {
+            console.log();
+            console.log( `# ${request.originalUrl}` );
+            console.log( 'Parameters :' , request.params );
+            console.log( 'Body :' , request.body );
+
+            var HTMLPath =  path.join( __dirname , '../static/enter-match-result.html' );
+            console.log( HTMLPath );
+            response.sendFile( HTMLPath );
+
+            console.log( 'OK.' );
+        }
+    );
+
 }
