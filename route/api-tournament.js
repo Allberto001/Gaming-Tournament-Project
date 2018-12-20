@@ -60,6 +60,38 @@ module.exports = function( app ) {
         }
     );
 
+    // GET tournament match by tournament name and match number
+    app.get(
+        '/api/tournament/:tournamentName/:matchNumber' ,
+        ( request , response ) => {
+            console.log();
+            console.log( `# ${request.originalUrl}` );
+            console.log( 'Parameters :' , request.params );
+            console.log( 'Body :' , request.body );
+
+            database.tournament
+                .findOne(
+                    {
+                        where : {
+                            tournamentName : {
+                                [ database.Sequelize.Op.eq ]: request.params.tournamentName
+                            } ,
+                            matchNumber : {
+                                [ database.Sequelize.Op.eq ]: request.params.matchNumber
+                            }
+                        }
+                    }
+                )
+                .then(
+                    ( result ) => {
+                        console.log( 'Database Result :' , result );
+                        response.json( result );
+                        console.log( 'OK.' );
+                    }
+                );
+        }
+    );
+
     // POST new tournament matches
     app.post(
         '/api/tournament' ,
@@ -148,7 +180,7 @@ module.exports = function( app ) {
         }
     );
 
-    // PUT update channel by ID
+    // PUT update tournament match
     app.put(
         '/api/tournament' ,
         ( request , response ) => {
@@ -163,8 +195,8 @@ module.exports = function( app ) {
                     tournament ,
                     {
                         where : {
-                            tournamentNumber : {
-                                [ database.Sequelize.Op.eq ]: tournament.tournamentNumber
+                            tournamentName : {
+                                [ database.Sequelize.Op.eq ]: tournament.tournamentName
                             } ,
                             matchNumber : {
                                 [ database.Sequelize.Op.eq ]: tournament.matchNumber

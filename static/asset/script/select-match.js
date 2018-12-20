@@ -1,4 +1,4 @@
-/*** /static/asset/script/create-tournament.js
+/*** /static/asset/script/select-match.js
 ***/
 
 
@@ -48,9 +48,6 @@ createElements = function( tournamentName , tournaments ) {
 handleReady = function( event ) {
     console.group( 'FUNCTION handleReady()' );
     console.logValue( 'event' , event );
-
-    // register event handlers
-    // $( '#create-tournament-form-submit' ).on( 'click' , handleSubmit );
 
     var tournamentName = getTournamentName();
     console.logValue( 'tournamentName' , tournamentName);

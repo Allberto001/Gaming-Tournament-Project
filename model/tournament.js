@@ -42,7 +42,7 @@ module.exports = function( sequelize , DataTypes) {
                 allowNull : true ,
                 validate : {
                     isInt : true ,
-                    min : 1
+                    min : 0
                 }
             } ,
             player2Score : {
@@ -50,7 +50,7 @@ module.exports = function( sequelize , DataTypes) {
                 allowNull : true ,
                 validate : {
                     isInt : true ,
-                    min : 1
+                    min : 0
                 }
             } ,
             winnerName : {

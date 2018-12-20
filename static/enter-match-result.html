@@ -29,8 +29,11 @@
     <!-- <script></script> -->
 
     <!-- External Javascript -->
-    <script src="asset/script/jdcUtil.js" defer></script>
-    <script src="asset/script/enter-match-result.js" defer></script>
+    <script src="/asset/script/jdcUtil.js" defer></script>
+    <script src="/asset/script/Channel.js" defer></script>
+    <script src="/asset/script/Pool.js" defer></script>
+    <script src="/asset/script/Tournament.js" defer></script>
+    <script src="/asset/script/enter-match-result.js" defer></script>
 </head>
 
 <body>
@@ -43,7 +46,7 @@
 
             <!-- Select Match Card --->
             <div id="enter-match-result-card" class="card">
-                <h5 class="card-header">
+                <h5 id="enter-match-result-header" class="card-header">
                     $TOURNAMENT_NAME Match $MATCH_NUMBER: Enter Match Result
                 </h5>
                 <div class="card-body">
@@ -52,17 +55,18 @@
                     <form id="enter-match-result-form">
 
                         <div class="form-group">
-                            <select id="create-tournament-form-channel" class="form-control">
-                                <option>FlaSh</option>
-                                <option>Jaedong</option>
+                            <label for="enter-match-result-form-winner">Winner</label>
+                            <select id="enter-match-result-form-winner" class="form-control">
+                                <option id="enter-match-result-form-winner-player1-name">$PLAYER1</option>
+                                <option id="enter-match-result-form-winner-player2-name">$PLAYER2</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="enter-match-result-form-player1-score">FlaSh Score</label>
+                            <label id="enter-match-result-form-player1-score-label" for="enter-match-result-form-player1-score">FlaSh Score</label>
                             <input id="enter-match-result-form-player1-score" type="text" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label for="enter-match-result-form-player2-score">Jaedong Score</label>
+                            <label id="enter-match-result-form-player2-score-label" for="enter-match-result-form-player2-score">Jaedong Score</label>
                             <input id="enter-match-result-form-player2-score" type="text" class="form-control">
                         </div>
 

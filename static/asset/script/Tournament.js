@@ -14,7 +14,7 @@ var Tournament = function(
     player2Score ,
     winnerName
 ) {
-    console.group( 'CONSTRUCTOR Channel()' );
+    console.group( 'CONSTRUCTOR Tournament()' );
     console.logValue( 'tournamentName' , tournamentName );
     console.logValue( 'matchNumber' , matchNumber );
     console.logValue( 'player1Name' , player1Name );
@@ -31,10 +31,10 @@ var Tournament = function(
     if ( player2Name ) {
         this.player2Name = player2Name;
     }
-    if ( player1Score ) {
+    if ( player1Score !== undefined && player1Score !== null ) {
         this.player1Score = player1Score;
     }
-    if ( player2Score ) {
+    if ( player2Score !== undefined && player2Score !== null ) {
         this.player2Score = player2Score;
     }
     if ( winnerName ) {
