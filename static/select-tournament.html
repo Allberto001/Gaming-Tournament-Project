@@ -29,8 +29,11 @@
     <!-- <script></script> -->
 
     <!-- External Javascript -->
-    <script src="asset/script/jdcUtil.js" defer></script>
-    <script src="asset/script/select-tournament.js" defer></script>
+    <script src="/asset/script/jdcUtil.js" defer></script>
+    <script src="/asset/script/Channel.js" defer></script>
+    <script src="/asset/script/Pool.js" defer></script>
+    <script src="/asset/script/Tournament.js" defer></script>
+    <script src="/asset/script/select-tournament.js" defer></script>
 </head>
 
 <body>
@@ -43,40 +46,20 @@
 
             <!-- Select Tournament Card --->
             <div id="select-tournament-card" class="card">
-                <h5 class="card-header">
+                <h5 id="select-tournament-header" class="card-header">
                     Select Tournament
                 </h5>
-                <div class="card-body">
+                <div id="select-tournament-card-body" class="card-body">
 
-                    <!-- Tournament Alert --->
-                    <div id="select-tournament-=0" class="alert alert-secondary py-4">
-                        <a href="#" class="alert-link">$TOURNAMENT_NAME</a> playing on $CHANNEL
-                    </div>
-                    <!-- Tournament Alert --->
+                    <!-- Channel Alert --->
 
-                    <!-- Tournament Alert --->
-                    <div id="select-tournament-1" class="alert alert-secondary py-4">
-                        <a href="#" class="alert-link">The 16th Cooperation Cup</a> playing on CooperationCup
+                    <!-- Channel Alert Template
+                    <div id="select-tournament-$TOURNAMENT_NAME" class="alert alert-secondary py-4">
+                        <a href="$TOURNAMENT_NAME/select-match" class="alert-link">$TOURNAMENT_NAME</a> playing on $CHANNEL_NAME
                     </div>
-                    <!-- Tournament Alert --->
+                    -->
 
-                    <!-- Tournament Alert --->
-                    <div id="select-tournament-2" class="alert alert-secondary py-4">
-                        <a href="#" class="alert-link">ARCREVO World Tour 2018</a> playing on arcsystemworks
-                    </div>
-                    <!-- Tournament Alert --->
-
-                    <!-- Tournament Alert --->
-                    <div id="select-tournament-3" class="alert alert-secondary py-4">
-                        <a href="#" class="alert-link">Tekken World Tour 2018</a> playing on tekken
-                    </div>
-                    <!-- Tournament Alert --->
-
-                    <!-- Tournament Alert --->
-                    <div id="select-tournament-4" class="alert alert-secondary py-4">
-                        <a href="#" class="alert-link">Bob Ross Marathon</a> playing on BobRoss
-                    </div>
-                    <!-- Tournament Alert --->
+                    <!-- Channel Alert --->
 
                 </div>
             </div>

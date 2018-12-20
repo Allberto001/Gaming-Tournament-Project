@@ -5,14 +5,14 @@
 /*** FUNCTION redirect()
 ***/
 
-redirect = function( relativePath ) {
+redirect = function( absolutePath ) {
     console.group( 'FUNCTION redirect()' );
-    console.logValue( 'relativePath' , relativePath );
+    console.logValue( 'absolutePath' , absolutePath );
 
-    window.location = (
-        window.location.href.slice( 0 , window.location.href.lastIndexOf( '/' ) ) +
-        relativePath
-    );
+    var newURL = `${window.location.origin}${absolutePath}`;
+    console.logValue( 'newURL' , newURL );
+
+    window.location = newURL;
 
     console.groupEnd();
 }
@@ -52,47 +52,70 @@ handleSubmit = function( event ) {
     var channelName = formData[ 'create-tournament-form-channel-name' ];
     var players = formData[ "create-tournament-form-players" ].split( '\n' );
 
-    // get channel data
-    var channel = new Channel( channelName , tournamentName );
-    console.logValue( channel );
+    // setup new channel
+    var newChannel = new Channel( channelName , tournamentName );
+    console.logValue( 'newChannel' , newChannel );
 
-    // get pool data
-    var pools = [];
+    // setup new player pool
+    var newPools = [];
     players.forEach(
         ( player , playerIndex ) => {
-            pools.push( new Pool( tournamentName , player ) );
+            newPools.push( new Pool( tournamentName , player ) );
         }
     );
-    pools = { pools : pools };
-    console.logValue( 'pools' , pools );
+    newPools = { pools : newPools };
+    console.logValue( 'newPools' , newPools );
 
-    // get tournament data
-    var tournaments = [];
-    tournaments.push( new Tournament ( tournamentName , 1 , players[ 0 ] , players[ 1 ] , null , null , null ) );
-    tournaments.push( new Tournament ( tournamentName , 2 , players[ 2 ] , players[ 3 ] , null , null , null ) );
-    tournaments.push( new Tournament ( tournamentName , 3 , null , null  , null , null , null ) );
-    tournaments.push( new Tournament ( tournamentName , 4 , null , null , null , null , null ) );
-    tournaments = { tournaments : tournaments };
-    console.logValue( tournaments );
+    // setup new tournament matches
+    var newTournaments = [];
+    newTournaments.push( new Tournament ( tournamentName , 1 , players[ 0 ] , players[ 1 ] , null , null , null ) );
+    newTournaments.push( new Tournament ( tournamentName , 2 , players[ 2 ] , players[ 3 ] , null , null , null ) );
+    newTournaments.push( new Tournament ( tournamentName , 3 , null , null  , null , null , null ) );
+    newTournaments = { tournaments : newTournaments };
+    console.logValue( 'newTournaments' , newTournaments );
 
-    // create channel
-    $.post( '/api/channel' , channel )
-    .then(
-        ( response ) => {
-            console.logValue( 'response' , response );
-            return $.post( '/api/pool' , pools )
+    // create new channel
+    $.ajax(
+        {
+            url: '/api/channel' ,
+            method : 'POST' ,
+            data : newChannel
         }
     )
+    // create new player pool
     .then(
         ( response ) => {
             console.logValue( 'response' , response );
-            return $.post( '/api/tournament' , tournaments )
+
+            return $.ajax(
+                {
+                    url: '/api/pool' ,
+                    method : 'POST' ,
+                    data : newPools
+                }
+            );
         }
     )
+    // create new tournament matches
     .then(
         ( response ) => {
             console.logValue( 'response' , response );
-            redirect( `/${tournamentName}/select-match` );
+
+            return $.ajax(
+                {
+                    url: '/api/tournament' ,
+                    method : 'POST' ,
+                    data : newTournaments
+                }
+            );
+        }
+    )
+    // redirect page
+    .then(
+        ( response ) => {
+            console.logValue( 'response' , response );
+
+            redirect( '/select-tournament' );
         }
     );
 

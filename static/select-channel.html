@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Title -->
-    <title>Flamingo: Select Match</title>
+    <title>Flamingo: Select Channel</title>
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous" defer></script>
@@ -33,41 +33,41 @@
     <script src="/asset/script/Channel.js" defer></script>
     <script src="/asset/script/Pool.js" defer></script>
     <script src="/asset/script/Tournament.js" defer></script>
-    <script src="/asset/script/select-match.js" defer></script>
+    <script src="/asset/script/select-channel.js" defer></script>
 </head>
 
 <body>
     <!-- Container: Body -->
     <div id="body" class="container-fluid p-4">
 
-    <!-- Row 1: Select Match -->
+    <!-- Row 1: Select Tournament -->
     <div class="row">
         <div class="col-12">
 
-            <!-- Select Match Card --->
-            <div id="select-match-card" class="card">
-                <h5 id="select-match-header" class="card-header">
-                    $TOURNAMENT_NAME: Select Match
+            <!-- Select Tournament Card --->
+            <div id="select-tournament-card" class="card">
+                <h5 id="select-tournament-header" class="card-header">
+                    Select Channel
                 </h5>
-                <div id="select-match-card-body" class="card-body">
+                <div id="select-tournament-card-body" class="card-body">
 
-                    <!-- Match Alert --->
+                    <!-- Channel Alert --->
 
-                    <!-- Match Alert Template
-                    <div id="select-match-$TOURNAMENT_NAME-$MATCH_NUMBER" class="alert alert-secondary py-4">
-                        <a href="$TOURNAMENT_NAME/$MATCH_NUMBER/enter-match-result" class="alert-link">Match $MATCH_NUMBER</a>: $PLAYER1 vs $PLAYER2
+                    <!-- Channel Alert Template
+                    <div id="select-tournament-$TOURNAMENT_NAME" class="alert alert-secondary py-4">
+                        <a href="$TOURNAMENT_NAME/select-match" class="alert-link">$TOURNAMENT_NAME</a> playing on $CHANNEL_NAME
                     </div>
                     -->
 
-                    <!-- Match Alert --->
+                    <!-- Channel Alert --->
 
                 </div>
             </div>
-            <!-- Select Match Card --->
+            <!-- Select Tournament Card --->
 
         </div>
     </div>
-    <!-- Row 1: Select Match -->
+    <!-- Row 1: Select Tournament -->
 
     </div>
     <!-- Container: Body -->

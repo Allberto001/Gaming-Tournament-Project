@@ -1,6 +1,6 @@
 /*** /route/api-tournament.js
 
-Exports a function that adds player tournament API routes to the given Express app.
+Exports a function that adds tournament API routes to the given Express app.
 
 ***/
 
@@ -24,7 +24,9 @@ module.exports = function( app ) {
                     ( result ) => {
                         console.log( 'Database Result :' , result );
                         console.log( 'Database Count :' , result.length );
+
                         response.json( result );
+
                         console.log( 'OK.' );
                     }
                 );
@@ -53,7 +55,9 @@ module.exports = function( app ) {
                 .then(
                     ( result ) => {
                         console.log( 'Database Result :' , result );
+
                         response.json( result );
+
                         console.log( 'OK.' );
                     }
                 );
@@ -85,14 +89,16 @@ module.exports = function( app ) {
                 .then(
                     ( result ) => {
                         console.log( 'Database Result :' , result );
+
                         response.json( result );
+
                         console.log( 'OK.' );
                     }
                 );
         }
     );
 
-    // POST new tournament matches
+    // POST new tournament match
     app.post(
         '/api/tournament' ,
         ( request , response ) => {
@@ -123,12 +129,14 @@ module.exports = function( app ) {
                                 if ( poolArray === undefined ) {
                                     console.log( '' );
                                     console.log( '# if ( poolArray === undefined )' );
+
                                     resolve();
                                 }
                                 // no elements: do nothing
                                 else if ( poolArray.length === 0 ) {
                                     console.log( '' );
                                     console.log( '# if( poolArray.length === 0 )' );
+
                                     resolve();
                                 }
                                 // add first element, recursive loop with the rest
@@ -142,6 +150,7 @@ module.exports = function( app ) {
                                         .then(
                                             ( result ) => {
                                                 console.log( 'Database Result :' , result );
+
                                                 resultBuffer.push( result );
                                                 return createPools( poolArray.splice( 1 ) );
                                             }
@@ -161,6 +170,7 @@ module.exports = function( app ) {
                 .then(
                     () => {
                         response.json( resultBuffer );
+
                         console.log( 'OK.' );
                     }
                 );
@@ -171,7 +181,9 @@ module.exports = function( app ) {
                     .then(
                         ( result ) => {
                             console.log( 'Database Result :' , result );
+
                             response.json( result );
+
                             console.log( 'OK.' );
                         }
                     );
@@ -180,7 +192,7 @@ module.exports = function( app ) {
         }
     );
 
-    // PUT update tournament match
+    // PUT update tournament match by tournament name and match number
     app.put(
         '/api/tournament' ,
         ( request , response ) => {
@@ -207,7 +219,9 @@ module.exports = function( app ) {
                 .then(
                     ( result ) => {
                         console.log( 'Database Result :' , result );
+
                         response.json( result );
+
                         console.log( 'OK.' );
                     }
                 );

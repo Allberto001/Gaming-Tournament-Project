@@ -1,4 +1,7 @@
 /*** /static/asset/script/Channel.js
+
+Constructor for channel objects.
+
 ***/
 
 

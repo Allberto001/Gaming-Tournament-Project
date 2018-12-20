@@ -1,4 +1,7 @@
 /*** /server.js
+
+Express application main program.
+
 ***/
 
 // Require

@@ -1,6 +1,6 @@
 /*** /route/html.js
 
-Exports a function that adds player tournament API routes to the given Express app.
+Exports a function that adds HTML API routes to the given Express app.
 
 ***/
 
@@ -9,6 +9,7 @@ var path = require( 'path' );
 
 module.exports = function( app ) {
 
+    // GET create tournament
     app.get(
         '/create-tournament' ,
         ( request , response ) => {
@@ -17,7 +18,7 @@ module.exports = function( app ) {
             console.log( 'Parameters :' , request.params );
             console.log( 'Body :' , request.body );
 
-            var HTMLPath =  path.join( __dirname , '../static/create-tournament.html' );
+            var HTMLPath = path.join( __dirname , '../static/create-tournament.html' );
             console.log( HTMLPath );
             response.sendFile( HTMLPath );
 
@@ -25,6 +26,24 @@ module.exports = function( app ) {
         }
     );
 
+    // GET select tournament
+    app.get(
+        '/select-tournament' ,
+        ( request , response ) => {
+            console.log();
+            console.log( `# ${request.originalUrl}` );
+            console.log( 'Parameters :' , request.params );
+            console.log( 'Body :' , request.body );
+
+            var HTMLPath = path.join( __dirname , '../static/select-tournament.html' );
+            console.log( HTMLPath );
+            response.sendFile( HTMLPath );
+
+            console.log( 'OK.' );
+        }
+    );
+
+    // GET select match
     app.get(
         '/:tournamentName/select-match' ,
         ( request , response ) => {
@@ -33,7 +52,7 @@ module.exports = function( app ) {
             console.log( 'Parameters :' , request.params );
             console.log( 'Body :' , request.body );
 
-            var HTMLPath =  path.join( __dirname , '../static/select-match.html' );
+            var HTMLPath = path.join( __dirname , '../static/select-match.html' );
             console.log( HTMLPath );
             response.sendFile( HTMLPath );
 
@@ -41,6 +60,7 @@ module.exports = function( app ) {
         }
     );
 
+    // GET enter match result
     app.get(
         '/:tournamentName/:matchNumber/enter-match-result' ,
         ( request , response ) => {
@@ -49,7 +69,41 @@ module.exports = function( app ) {
             console.log( 'Parameters :' , request.params );
             console.log( 'Body :' , request.body );
 
-            var HTMLPath =  path.join( __dirname , '../static/enter-match-result.html' );
+            var HTMLPath = path.join( __dirname , '../static/enter-match-result.html' );
+            console.log( HTMLPath );
+            response.sendFile( HTMLPath );
+
+            console.log( 'OK.' );
+        }
+    );
+
+    // GET select channel
+    app.get(
+        '/select-channel' ,
+        ( request , response ) => {
+            console.log();
+            console.log( `# ${request.originalUrl}` );
+            console.log( 'Parameters :' , request.params );
+            console.log( 'Body :' , request.body );
+
+            var HTMLPath = path.join( __dirname , '../static/select-channel.html' );
+            console.log( HTMLPath );
+            response.sendFile( HTMLPath );
+
+            console.log( 'OK.' );
+        }
+    );
+
+    // GET watch channel
+    app.get(
+        '/:tournamentName/watch-channel' ,
+        ( request , response ) => {
+            console.log();
+            console.log( `# ${request.originalUrl}` );
+            console.log( 'Parameters :' , request.params );
+            console.log( 'Body :' , request.body );
+
+            var HTMLPath = path.join( __dirname , '../static/watch-channel.html' );
             console.log( HTMLPath );
             response.sendFile( HTMLPath );
 

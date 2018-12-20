@@ -24,7 +24,9 @@ module.exports = function( app ) {
                     ( result ) => {
                         console.log( 'Database Result :' , result );
                         console.log( 'Database Count :' , result.length );
+
                         response.json( result );
+
                         console.log( 'OK.' );
                     }
                 );
@@ -53,7 +55,9 @@ module.exports = function( app ) {
                 .then(
                     ( result ) => {
                         console.log( 'Database Result :' , result );
+
                         response.json( result );
+
                         console.log( 'OK.' );
                     }
                 );
@@ -75,7 +79,9 @@ module.exports = function( app ) {
                 .then(
                     ( result ) => {
                         console.log( 'Database Result :' , result );
+
                         response.json( result );
+
                         console.log( 'OK.' );
                     }
                 );

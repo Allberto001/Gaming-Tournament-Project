@@ -91,12 +91,14 @@ module.exports = function( app ) {
                                 if ( poolArray === undefined ) {
                                     console.log( '' );
                                     console.log( '# if ( poolArray === undefined )' );
+
                                     resolve();
                                 }
                                 // no elements: do nothing
                                 else if ( poolArray.length === 0 ) {
                                     console.log( '' );
                                     console.log( '# if( poolArray.length === 0 )' );
+
                                     resolve();
                                 }
                                 // add first element, recursive loop with the rest
@@ -110,6 +112,7 @@ module.exports = function( app ) {
                                         .then(
                                             ( result ) => {
                                                 console.log( 'Database Result :' , result );
+
                                                 resultBuffer.push( result );
                                                 return createPools( poolArray.splice( 1 ) );
                                             }
@@ -129,6 +132,7 @@ module.exports = function( app ) {
                 .then(
                     () => {
                         response.json( resultBuffer );
+
                         console.log( 'OK.' );
                     }
                 );
@@ -139,7 +143,9 @@ module.exports = function( app ) {
                     .then(
                         ( result ) => {
                             console.log( 'Database Result :' , result );
+
                             response.json( result );
+
                             console.log( 'OK.' );
                         }
                     );

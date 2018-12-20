@@ -1,6 +1,6 @@
 /*** /model/channel.js
 
-Exports a function that a channel database model.
+Exports a function that returns a channel database model.
 
 A channel defines the Twitch.tv channel and tournament.
 

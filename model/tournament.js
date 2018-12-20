@@ -1,6 +1,8 @@
 /*** /model/tournament.js
 
-Exports a function that returns tournament database model.
+Exports a function that returns tournament match database model.
+
+A tournament match defines the matches played in a tournament. Includes players, score, and winner.
 
 ***/
 

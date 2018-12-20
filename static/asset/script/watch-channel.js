@@ -42,7 +42,7 @@ createElements = function() {
             var divJQ = $( '<div>' )
                 .attr( 'id' , `select-match-${tournament.tournamentName}-${tournament.matchNumber}` )
                 .attr( 'class' , 'alert alert-secondary py-4' )
-                .html( `<a href="/${tournament.tournamentName}/${tournament.matchNumber}/enter-match-result" class="alert-link">Match ${tournament.matchNumber}</a>: ${tournament.player1Name} vs ${tournament.player2Name}` );
+                .html( `Match ${tournament.matchNumber}: ${tournament.player1Name} vs ${tournament.player2Name}` );
             selectMatchCardBody.append( divJQ );
         }
     );

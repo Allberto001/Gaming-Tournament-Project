@@ -1,4 +1,7 @@
 /*** /static/asset/script/Tournament.js
+
+Constructor for tournament match objects.
+
 ***/
 
 

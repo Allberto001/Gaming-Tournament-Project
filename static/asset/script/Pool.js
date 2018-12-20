@@ -1,4 +1,7 @@
 /*** /static/asset/script/Pool.js
+
+Constructor for player pool objects.
+
 ***/
 
 

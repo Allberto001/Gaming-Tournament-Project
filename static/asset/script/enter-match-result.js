@@ -1,8 +1,13 @@
 /*** /static/asset/script/enter-match-result.js
 ***/
 
-// Globals
-var TOURNAMENT;
+
+/*** Globals
+***/
+
+var gTournamentName;
+var gMatchNumber;
+var gTournament;
 
 
 /*** FUNCTION getTournamentName()
@@ -38,33 +43,35 @@ getMatchNumber = function() {
 /*** FUNCTION createElements()
 ***/
 
-createElements = function( tournamentName , matchNumber , tournament ) {
+createElements = function() {
     console.group( 'FUNCTION createElements()' );
-    console.logValue( 'tournamentName' , tournamentName );
-    console.logValue( 'matchNumber' , matchNumber );
-    console.logValue( 'tournament' , tournament );
+    console.logValue( 'gTournamentName' , gTournamentName );
+    console.logValue( 'gMatchNumber' , gMatchNumber );
+    console.logValue( 'gTournament' , gTournament );
 
-    enterMatchResultHeaderJQ = $( '#enter-match-result-header' );
-    enterMatchResultHeaderJQ.text( `${tournamentName} Match ${matchNumber}: Enter Match Result` );
+    // header
+    $( '#enter-match-result-header' ).text( `${gTournamentName} Match ${gMatchNumber}: Enter Match Result` );
 
-    $( '#enter-match-result-form-winner-player1-name' ).text( tournament.player1Name );
-    $( '#enter-match-result-form-winner-player2-name' ).text( tournament.player2Name );
+    // tourmament match winner options
+    $( '#enter-match-result-form-winner-player1-name' ).text( gTournament.player1Name );
+    $( '#enter-match-result-form-winner-player2-name' ).text( gTournament.player2Name );
 
-    $( '#enter-match-result-form-player1-score-label' ).text( `${tournament.player1Name} Score` );
-    $( '#enter-match-result-form-player2-score-label' ).text( `${tournament.player2Name} Score` );
+    // score labels
+    $( '#enter-match-result-form-player1-score-label' ).text( `${gTournament.player1Name} Score` );
+    $( '#enter-match-result-form-player2-score-label' ).text( `${gTournament.player2Name} Score` );
 
     console.groupEnd();
 }
 
 
-/*** FUNCTION redirect()
-***/
-
-redirect = function( absolutepath ) {
+redirect = function( absolutePath ) {
     console.group( 'FUNCTION redirect()' );
-    console.logValue( 'absolutepath' , absolutepath );
+    console.logValue( 'absolutePath' , absolutePath );
 
-    window.location = ( window.location.host + absolutepath );
+    var newURL = `${window.location.origin}${absolutePath}`;
+    console.logValue( 'newURL' , newURL );
+
+    window.location = newURL;
 
     console.groupEnd();
 }
@@ -104,37 +111,36 @@ handleSubmit = function( event ) {
     var player1Score = formData[ 'enter-match-result-form-player1-score' ];
     var player2Score = formData[ 'enter-match-result-form-player2-score' ];
 
-    // get tournament match data
-    var tournament = new Tournament(
-        TOURNAMENT.tournamentName ,
-        TOURNAMENT.matchNumber ,
-        TOURNAMENT.player1Name ,
-        TOURNAMENT.player2Name ,
+    // setup update of this tournament match
+    var updateThisTournament = new Tournament(
+        gTournament.tournamentName ,
+        gTournament.matchNumber ,
+        gTournament.player1Name ,
+        gTournament.player2Name ,
         player1Score ,
         player2Score ,
         winnerName
     );
-    console.logValue( 'tournament' , tournament );
+    console.logValue( 'updateThisTournament' , updateThisTournament );
 
-    // winner moves on
+    // setup update of next tournament match
     var nextMatchNumber = 3;
     var nextPlayer1Name = null;
     var nextPlayer2Name = null;
-    if ( TOURNAMENT.matchNumber === 1 && winnerName === TOURNAMENT.player1Name ) {
-        nextPlayer1Name = TOURNAMENT.player1Name;
+    if ( gTournament.matchNumber === 1 && winnerName === gTournament.player1Name ) {
+        nextPlayer1Name = gTournament.player1Name;
     }
-    if ( TOURNAMENT.matchNumber === 1 && winnerName === TOURNAMENT.player2Name ) {
-        nextPlayer1Name = TOURNAMENT.player2Name;
+    if ( gTournament.matchNumber === 1 && winnerName === gTournament.player2Name ) {
+        nextPlayer1Name = gTournament.player2Name;
     }
-    if ( TOURNAMENT.matchNumber === 2 && winnerName === TOURNAMENT.player1Name ) {
-        nextPlayer2Name = TOURNAMENT.player1Name;
+    if ( gTournament.matchNumber === 2 && winnerName === gTournament.player1Name ) {
+        nextPlayer2Name = gTournament.player1Name;
     }
-    if ( TOURNAMENT.matchNumber === 2 && winnerName === TOURNAMENT.player2Name ) {
-        nextPlayer2Name = TOURNAMENT.player2Name;
+    if ( gTournament.matchNumber === 2 && winnerName === gTournament.player2Name ) {
+        nextPlayer2Name = gTournament.player2Name;
     }
-
-    var nextTournament = new Tournament(
-        TOURNAMENT.tournamentName ,
+    var updateNextTournament = new Tournament(
+        gTournament.tournamentName ,
         nextMatchNumber ,
         nextPlayer1Name ,
         nextPlayer2Name ,
@@ -142,32 +148,41 @@ handleSubmit = function( event ) {
         null ,
         null
     );
-    console.logValue( 'nextTournament' , nextTournament );
+    console.logValue( 'updateNextTournament' , updateNextTournament );
 
-    // update tournament match
+    // update this tournament match
     $.ajax(
         {
             url: '/api/tournament' ,
             method : 'PUT' ,
-            data : tournament
+            data : updateThisTournament
+        }
+    )
+    // update next tournament match
+    .then(
+        ( response ) => {
+            console.logValue( 'response' , response );
+
+            // check if not last match
+            if ( gTournament.matchNumber !== 3 ) {
+                return $.ajax(
+                    {
+                        url: '/api/tournament' ,
+                        method : 'PUT' ,
+                        data : updateNextTournament
+                    }
+                );
+            }
+            else {
+                return null;
+            }
         }
     )
     .then(
         ( response ) => {
             console.logValue( 'response' , response );
-            return $.ajax(
-                {
-                    url: '/api/tournament' ,
-                    method : 'PUT' ,
-                    data : nextTournament
-                }
-            );
-        }
-    )
-    .then(
-        ( response ) => {
-            console.logValue( 'response' , response );
-            redirect( `/${TOURNAMENT.tournamentName}/select-match` );
+
+            redirect( `/${gTournament.tournamentName}/select-match` );
         }
     );
 
@@ -182,19 +197,20 @@ handleReady = function( event ) {
     console.group( 'FUNCTION handleReady()' );
     console.logValue( 'event' , event );
 
-    var tournamentName = getTournamentName();
-    var matchNumber = getMatchNumber();
+    gTournamentName = getTournamentName();
+    gMatchNumber = getMatchNumber();
     $.ajax(
         {
-            url: `/api/tournament/${tournamentName}/${matchNumber}` ,
+            url: `/api/tournament/${gTournamentName}/${gMatchNumber}` ,
             method : 'GET'
         }
     )
     .then(
         ( tournament ) => {
             console.logValue( 'tournament' , tournament );
-            TOURNAMENT = tournament;
-            createElements( tournamentName , matchNumber , tournament );
+
+            gTournament = tournament;
+            createElements();
 
             // register event handlers
             $( '#enter-match-result-form-submit' ).on( 'click' , handleSubmit );
