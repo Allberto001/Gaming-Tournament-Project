@@ -10,20 +10,11 @@ module.exports = function( sequelize , DataTypes) {
     var poolModel = sequelize.define(
         "pool" ,
         {
-            tournamentNumber : {
-                type : DataTypes.INTEGER ,
+            tournamentName : {
+                type : DataTypes.STRING ,
                 allowNull : false ,
                 validate : {
-                    isInt : true ,
-                    min : 1
-                }
-            } ,
-            playerNumber : {
-                type : DataTypes.INTEGER ,
-                allowNull : false ,
-                validate : {
-                    isInt : true ,
-                    min : 1
+                    notEmpty : true
                 }
             } ,
             playerName : {

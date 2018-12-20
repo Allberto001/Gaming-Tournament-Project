@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Title -->
+    <title>Flamingo: Enter Match Result</title>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous" defer></script>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous" defer></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous" defer></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous" defer></script>
+
+    <!-- Internal CSS -->
+    <!-- <style></style> -->
+
+    <!-- External CSS -->
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="asset/style/reset.css"> -->
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="asset/style/style.css"> -->
+
+    <!-- Internal Javascript -->
+    <!-- <script></script> -->
+
+    <!-- External Javascript -->
+    <script src="asset/script/jdcUtil.js" defer></script>
+    <script src="asset/script/enter-match-result.js" defer></script>
+</head>
+
+<body>
+    <!-- Container: Body -->
+    <div id="body" class="container-fluid p-4">
+
+    <!-- Row 1: Select Match -->
+    <div class="row">
+        <div class="col-12">
+
+            <!-- Select Match Card --->
+            <div id="enter-match-result-card" class="card">
+                <h5 class="card-header">
+                    $TOURNAMENT_NAME Match $MATCH_NUMBER: Enter Match Result
+                </h5>
+                <div class="card-body">
+
+                    <!-- Enter Match Form -->
+                    <form id="enter-match-result-form">
+
+                        <div class="form-group">
+                            <select id="create-tournament-form-channel" class="form-control">
+                                <option>FlaSh</option>
+                                <option>Jaedong</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="enter-match-result-form-player1-score">FlaSh Score</label>
+                            <input id="enter-match-result-form-player1-score" type="text" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="enter-match-result-form-player2-score">Jaedong Score</label>
+                            <input id="enter-match-result-form-player2-score" type="text" class="form-control">
+                        </div>
+
+                        <button id="enter-match-result-form-submit" type="submit" action="" class="btn btn-primary">Submit</button>
+                    </form>
+                    <!-- Enter Match Form -->
+
+                </div>
+            </div>
+            <!-- Select Match Card --->
+
+        </div>
+    </div>
+    <!-- Row 1: Select Match -->
+
+    </div>
+    <!-- Container: Body -->
+
+    <!-- Internal Javascript -->
+    <!-- <script></script> -->
+</body>
+
+</html>

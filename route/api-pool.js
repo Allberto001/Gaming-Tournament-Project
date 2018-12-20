@@ -155,9 +155,9 @@ module.exports = function( app ) {
 
             var pool = request.body;
 
-            // check if pool is an Array
-            if ( pool instanceof Array ) {
-                createPools( pool )
+            // check that request has array pools
+            if ( pool.pools ) {
+                createPools( pool.pools )
                 .then(
                     () => {
                         response.json( resultBuffer );
