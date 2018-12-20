@@ -31,9 +31,9 @@ module.exports = function( app ) {
         }
     );
 
-    // GET channel by channel
+    // GET channel by tournament name
     app.get(
-        '/api/channel/:channel' ,
+        '/api/channel/:tournamentName' ,
         ( request , response ) => {
             console.log();
             console.log( `# ${request.originalUrl}` );
@@ -44,8 +44,8 @@ module.exports = function( app ) {
                 .findOne(
                     {
                         where : {
-                            channel : {
-                                [ database.Sequelize.Op.eq ]: request.params.channel
+                            tournamentName : {
+                                [ database.Sequelize.Op.eq ]: request.params.tournamentName
                             }
                         }
                     }
@@ -79,19 +79,6 @@ module.exports = function( app ) {
                         console.log( 'OK.' );
                     }
                 );
-        }
-    );
-
-    // PUT update channel by ID
-    app.put(
-        '/api/channel/:id' ,
-        ( request , response ) => {
-            console.log();
-            console.log( `# ${request.originalUrl}` );
-            console.log( 'Parameters :' , request.params );
-            console.log( 'Body :' , request.body );
-            response.send( 'OK.' );
-            console.log( 'OK.' );
         }
     );
 }

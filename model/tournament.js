@@ -1,6 +1,6 @@
 /*** /model/tournament.js
 
-Exports a function that returns a tournament model.
+Exports a function that returns tournament database model.
 
 ***/
 
@@ -8,12 +8,11 @@ module.exports = function( sequelize , DataTypes) {
     var tournamentModel = sequelize.define(
         "tournament" ,
         {
-            tournamentNumber : {
-                type : DataTypes.INTEGER ,
+            tournamentName : {
+                type : DataTypes.STRING ,
                 allowNull : false ,
                 validate : {
-                    isInt : true ,
-                    min : 1
+                    notEmpty : true
                 }
             } ,
             matchNumber : {

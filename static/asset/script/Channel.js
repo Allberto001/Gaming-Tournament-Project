@@ -1,16 +1,16 @@
-/*** Channel.js
+/*** /static/asset/script/Channel.js
 ***/
 
 
 /*** CONSTRUCTOR Channel()
 ***/
 
-var Channel = function( channel , tournamentName ) {
-    console.group( 'CONSTRUCTOR Channel()' );
-    console.logValue( 'channel' , channel );
+var Channel = function( channelName , tournamentName ) {
+    console.group( 'CONSTRUCTOR channelName()' );
+    console.logValue( 'channelName' , channelName );
     console.logValue( 'tournamentName' , tournamentName );
 
-    this.channel = channel;
+    this.channelName = channelName;
     this.tournamentName = tournamentName;
 
     console.log( this , 'this' );

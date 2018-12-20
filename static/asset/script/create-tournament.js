@@ -26,7 +26,7 @@ getFormData = function() {
 
     var formData = {};
     formData[ 'create-tournament-form-tournament-name' ] = $( "#create-tournament-form-tournament-name" ).val();
-    formData[ 'create-tournament-form-channel' ] = $( "#create-tournament-form-channel" ).val();
+    formData[ 'create-tournament-form-channel-name' ] = $( "#create-tournament-form-channel-name" ).val();
     formData[ 'create-tournament-form-players' ] = $( "#create-tournament-form-players" ).val();
 
     console.logValue( 'formData' , formData );
@@ -49,34 +49,44 @@ handleSubmit = function( event ) {
     // get form data
     var formData = getFormData();
     var tournamentName = formData[ 'create-tournament-form-tournament-name' ];
-    var channel = formData[ 'create-tournament-form-channel' ];
+    var channelName = formData[ 'create-tournament-form-channel-name' ];
     var players = formData[ "create-tournament-form-players" ].split( '\n' );
 
     // get channel data
-    var channel = new Channel( channel , tournamentName );
+    var channel = new Channel( channelName , tournamentName );
     console.logValue( channel );
 
     // get pool data
     var pools = [];
     players.forEach(
         ( player , playerIndex ) => {
-            var pool = new Pool( tournamentName , player );
-            pools.push( pool );
+            pools.push( new Pool( tournamentName , player ) );
         }
     );
+    pools = { pools : pools };
     console.logValue( 'pools' , pools );
+
+    // get tournament data
+    var tournaments = [];
+    tournaments.push( new Tournament ( tournamentName , 1 , players[ 0 ] , players[ 1 ] , null , null , null ) );
+    tournaments.push( new Tournament ( tournamentName , 2 , players[ 2 ] , players[ 3 ] , null , null , null ) );
+    tournaments.push( new Tournament ( tournamentName , 3 , null , null  , null , null , null ) );
+    tournaments.push( new Tournament ( tournamentName , 4 , null , null , null , null , null ) );
+    tournaments = { tournaments : tournaments };
+    console.logValue( tournaments );
 
     // create channel
     $.post( '/api/channel' , channel )
     .then(
         ( response ) => {
             console.logValue( 'response' , response );
-            return $.post( '/api/pool' , { pools : pools } )
+            return $.post( '/api/pool' , pools )
         }
     )
     .then(
         ( response ) => {
             console.logValue( 'response' , response );
+            return $.post( '/api/tournament' , tournaments )
         }
     )
     .then(

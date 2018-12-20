@@ -1,6 +1,6 @@
 /*** /model/pool.js
 
-Exports a function that returns a database model for a player pool.
+Exports a function that returns a player pool database model.
 
 A player pool defines the players to play in a tournament.
 
