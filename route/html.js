@@ -26,7 +26,7 @@ module.exports = function( app ) {
     );
 
     app.get(
-        '/select-match' ,
+        '/:tournamentName/select-match' ,
         ( request , response ) => {
             console.log();
             console.log( `# ${request.originalUrl}` );

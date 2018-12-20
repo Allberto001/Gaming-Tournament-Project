@@ -82,7 +82,7 @@ handleSubmit = function( event ) {
     .then(
         ( response ) => {
             console.logValue( 'response' , response );
-            redirect( '/select-match.html' );
+            redirect( `/${tournamentName}/select-match` );
         }
     );
 
