@@ -6,6 +6,7 @@ Exports a function that adds channel API routes to the given Express app.
 
 // Require
 var database = require( '../model' );
+var firebase = require( 'firebase' );
 
 module.exports = function( app ) {
 
@@ -74,13 +75,46 @@ module.exports = function( app ) {
             console.log( 'Body :' , request.body );
 
             var channel = request.body;
+            var databaseResult;
             database.channel
                 .create( channel )
                 .then(
                     ( result ) => {
                         console.log( 'Database Result :' , result );
 
-                        response.json( result );
+                        databaseResult = result;
+                        return;
+                    }
+                )
+                .then(
+                    () => {
+                        // Initialize Firebase
+                        if ( !firebase.apps.length ) {
+                            var firebaseConfig = {
+                                apiKey : 'AIzaSyCV8bbcKO_RdS_B1TpLoVRb7tB6fVD1pwU' ,
+                                authDomain : 'fsfp-team-project-02.firebaseapp.com' ,
+                                databaseURL : 'https://fsfp-team-project-02.firebaseio.com' ,
+                                projectId : 'fsfp-team-project-02' ,
+                                storageBucket : 'fsfp-team-project-02.appspot.com' ,
+                                messagingSenderId : '702675547554'
+                            };
+                            firebase.initializeApp( firebaseConfig );
+                        }
+                        var firebaseDatabaseReference = firebase.database().ref();    // root
+                        firebaseDatabaseReference
+                            .child( channel.tournamentName )
+                            .set( 'dummy' )
+                            .then(
+                                () => {
+                                    console.log( 'Created tournament child.' );
+                                    return;
+                                }
+                            );
+                    }
+                )
+                .then(
+                    () => {
+                        response.json( databaseResult );
 
                         console.log( 'OK.' );
                     }

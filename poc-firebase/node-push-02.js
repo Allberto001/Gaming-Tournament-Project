@@ -15,6 +15,25 @@ var firebaseConfig = {
 };
 firebase.initializeApp( firebaseConfig );
 
+// Create tournament "folder" (root/$TOURNAMENT_NAME)
+console.log( '' );
+console.log( '# ref()' );
+ref = firebase.database().ref( 'firebase-poc' );
+console.log( ref.toString() );
+
+console.log( '' );
+console.log( '# child()' );
+ref2 = ref.child( 'myKey2' );
+console.log( ref2.toString() );
+// ref2.set( null )
+//     .then(
+//         () => {
+//             console.log( 'OK' );
+//         }
+//     );
+
+
+/*
 // Create messages (root/firebase-poc/messages)
 var dateTimeFormatOptions = {
     year : 'numeric' ,
@@ -41,14 +60,13 @@ var message = {
     message : JSON.stringify( sampleObject )
 }
 
-firebaseDatabaseReference = firebase.database().ref( 'test-tournament' );
-// firebaseDatabaseReference = firebase.database().ref( 'firebase-poc/messages' );
+firebaseDatabaseReference = firebase.database().ref( 'firebase-poc/messages' );
 firebaseDatabaseReference
     .push( message )
     .then(
         () => {
             console.log( 'Pushed message.' );
             console.log( 'message' , message );
-            return;
         }
     );
+*/

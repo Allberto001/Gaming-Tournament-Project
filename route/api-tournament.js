@@ -6,6 +6,8 @@ Exports a function that adds tournament API routes to the given Express app.
 
 // Require
 var database = require( '../model' );
+var firebase = require( 'firebase' );
+
 
 module.exports = function( app ) {
 
@@ -202,6 +204,7 @@ module.exports = function( app ) {
             console.log( 'Body :' , request.body );
 
             var tournament = request.body;
+            var databaseResult;
             database.tournament
                 .update(
                     tournament ,
@@ -220,7 +223,45 @@ module.exports = function( app ) {
                     ( result ) => {
                         console.log( 'Database Result :' , result );
 
-                        response.json( result );
+                        databaseResult = result;
+                        return;
+                    }
+                )
+                .then(
+                    () => {
+                        if ( tournament.winnerName ) {
+                            console.log( 'Pushing message' );
+
+                            message = `${tournament.tournamentName} match ${tournament.matchNumber}: ${tournament.player1Name} ${tournament.player1Score} - ${tournament.player2Score} ${tournament.player2Name}. ${tournament.winnerName} wins!`;
+                            console.log( 'message' , message );
+
+                            // Initialize Firebase
+                            if ( !firebase.apps.length ) {
+                                var firebaseConfig = {
+                                    apiKey : 'AIzaSyCV8bbcKO_RdS_B1TpLoVRb7tB6fVD1pwU' ,
+                                    authDomain : 'fsfp-team-project-02.firebaseapp.com' ,
+                                    databaseURL : 'https://fsfp-team-project-02.firebaseio.com' ,
+                                    projectId : 'fsfp-team-project-02' ,
+                                    storageBucket : 'fsfp-team-project-02.appspot.com' ,
+                                    messagingSenderId : '702675547554'
+                                };
+                                firebase.initializeApp( firebaseConfig );
+                            }
+                            var firebaseDatabaseReference = firebase.database().ref( tournament.tournamentName );
+                            firebaseDatabaseReference
+                                .push( message )
+                                .then(
+                                    () => {
+                                        console.log( 'Pushed message.' );
+                                        return;
+                                    }
+                                );
+                        }
+                    }
+                )
+                .then(
+                    () => {
+                        response.json( databaseResult );
 
                         console.log( 'OK.' );
                     }
