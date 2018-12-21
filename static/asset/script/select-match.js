@@ -39,10 +39,26 @@ createElements = function() {
     selectMatchCardBody = $( '#select-match-card-body' );
     gTournaments.forEach(
         ( tournament , tournamentIndex ) => {
+            var player1Name;
+            var player2Name;
+
+            if ( tournament.player1Name ) {
+                player1Name = tournament.player1Name;
+            }
+            else {
+                player1Name = 'TBD';
+            }
+            if ( tournament.player2Name ) {
+                player2Name = tournament.player2Name;
+            }
+            else {
+                player2Name = 'TBD';
+            }
+
             var divJQ = $( '<div>' )
                 .attr( 'id' , `select-match-${tournament.tournamentName}-${tournament.matchNumber}` )
                 .attr( 'class' , 'alert alert-secondary py-4' )
-                .html( `<a href="/${tournament.tournamentName}/${tournament.matchNumber}/enter-match-result" class="alert-link">Match ${tournament.matchNumber}</a>: ${tournament.player1Name} vs ${tournament.player2Name}` );
+                .html( `<a href="/${tournament.tournamentName}/${tournament.matchNumber}/enter-match-result" class="alert-link">Match ${tournament.matchNumber}</a>: ${player1Name} vs ${player2Name}` );
             selectMatchCardBody.append( divJQ );
         }
     );
