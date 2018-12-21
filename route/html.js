@@ -96,14 +96,14 @@ module.exports = function( app ) {
 
     // GET watch channel
     app.get(
-        '/:tournamentName/watch-channel' ,
+        '/watch-channel/:tournamentName' ,
         ( request , response ) => {
             console.log();
             console.log( `# ${request.originalUrl}` );
             console.log( 'Parameters :' , request.params );
             console.log( 'Body :' , request.body );
 
-            var HTMLPath = path.join( __dirname , '../static/watch-channel.html' );
+            var HTMLPath = path.join( __dirname , '../static/watch-channel/watch-channel.html' );
             console.log( HTMLPath );
             response.sendFile( HTMLPath );
 

@@ -36,7 +36,7 @@ addHTMLRoutes( app );
 
 // Sync database model and start Express app
 database.sequelize.sync(
-    { force : true }
+    { force : false }
 )
 .then(
     () => {
