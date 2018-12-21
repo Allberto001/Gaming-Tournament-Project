@@ -238,7 +238,7 @@ module.exports = function( app ) {
                             // Initialize Firebase
                             if ( !firebase.apps.length ) {
                                 var firebaseConfig = {
-                                    apiKey : 'AIzaSyCV8bbcKO_RdS_B1TpLoVRb7tB6fVD1pwU' ,
+                                    apiKey : process.env.FIREBASE_API_KEY ,
                                     authDomain : 'fsfp-team-project-02.firebaseapp.com' ,
                                     databaseURL : 'https://fsfp-team-project-02.firebaseio.com' ,
                                     projectId : 'fsfp-team-project-02' ,
