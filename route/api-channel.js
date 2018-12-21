@@ -6,6 +6,7 @@ Exports a function that adds channel API routes to the given Express app.
 
 // Require
 var database = require( '../model' );
+var firebase = require( 'firebase' );
 
 module.exports = function( app ) {
 
@@ -24,16 +25,18 @@ module.exports = function( app ) {
                     ( result ) => {
                         console.log( 'Database Result :' , result );
                         console.log( 'Database Count :' , result.length );
+
                         response.json( result );
+
                         console.log( 'OK.' );
                     }
                 );
         }
     );
 
-    // GET channel by channel
+    // GET channel by tournament name
     app.get(
-        '/api/channel/:channel' ,
+        '/api/channel/:tournamentName' ,
         ( request , response ) => {
             console.log();
             console.log( `# ${request.originalUrl}` );
@@ -44,8 +47,8 @@ module.exports = function( app ) {
                 .findOne(
                     {
                         where : {
-                            channel : {
-                                [ database.Sequelize.Op.eq ]: request.params.channel
+                            tournamentName : {
+                                [ database.Sequelize.Op.eq ]: request.params.tournamentName
                             }
                         }
                     }
@@ -53,7 +56,9 @@ module.exports = function( app ) {
                 .then(
                     ( result ) => {
                         console.log( 'Database Result :' , result );
+
                         response.json( result );
+
                         console.log( 'OK.' );
                     }
                 );
@@ -70,28 +75,50 @@ module.exports = function( app ) {
             console.log( 'Body :' , request.body );
 
             var channel = request.body;
+            var databaseResult;
             database.channel
                 .create( channel )
                 .then(
                     ( result ) => {
                         console.log( 'Database Result :' , result );
-                        response.json( result );
+
+                        databaseResult = result;
+                        return;
+                    }
+                )
+                .then(
+                    () => {
+                        // Initialize Firebase
+                        if ( !firebase.apps.length ) {
+                            var firebaseConfig = {
+                                apiKey : 'AIzaSyCV8bbcKO_RdS_B1TpLoVRb7tB6fVD1pwU' ,
+                                authDomain : 'fsfp-team-project-02.firebaseapp.com' ,
+                                databaseURL : 'https://fsfp-team-project-02.firebaseio.com' ,
+                                projectId : 'fsfp-team-project-02' ,
+                                storageBucket : 'fsfp-team-project-02.appspot.com' ,
+                                messagingSenderId : '702675547554'
+                            };
+                            firebase.initializeApp( firebaseConfig );
+                        }
+                        var firebaseDatabaseReference = firebase.database().ref();    // root
+                        firebaseDatabaseReference
+                            .child( channel.tournamentName )
+                            .set( 'dummy' )
+                            .then(
+                                () => {
+                                    console.log( 'Created tournament child.' );
+                                    return;
+                                }
+                            );
+                    }
+                )
+                .then(
+                    () => {
+                        response.json( databaseResult );
+
                         console.log( 'OK.' );
                     }
                 );
-        }
-    );
-
-    // PUT update channel by ID
-    app.put(
-        '/api/channel/:id' ,
-        ( request , response ) => {
-            console.log();
-            console.log( `# ${request.originalUrl}` );
-            console.log( 'Parameters :' , request.params );
-            console.log( 'Body :' , request.body );
-            response.send( 'OK.' );
-            console.log( 'OK.' );
         }
     );
 }

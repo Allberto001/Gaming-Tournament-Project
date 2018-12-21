@@ -1,4 +1,7 @@
 /*** /server.js
+
+Express application main program.
+
 ***/
 
 // Require
@@ -28,12 +31,12 @@ var addAPIRoutes = require( './route/api-pool.js' );
 addAPIRoutes( app );
 var addAPIRoutes = require( './route/api-tournament.js' );
 addAPIRoutes( app );
-// var addHTMLRoutes = require( './route/html.js' );
-// addHTMLRoutes( app );
+var addHTMLRoutes = require( './route/html.js' );
+addHTMLRoutes( app );
 
 // Sync database model and start Express app
 database.sequelize.sync(
-    { force : true }
+    { force : false }
 )
 .then(
     () => {

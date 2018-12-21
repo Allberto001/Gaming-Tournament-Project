@@ -1,6 +1,8 @@
 /*** /model/tournament.js
 
-Exports a function that returns a tournament model.
+Exports a function that returns tournament match database model.
+
+A tournament match defines the matches played in a tournament. Includes players, score, and winner.
 
 ***/
 
@@ -8,12 +10,11 @@ module.exports = function( sequelize , DataTypes) {
     var tournamentModel = sequelize.define(
         "tournament" ,
         {
-            tournamentNumber : {
-                type : DataTypes.INTEGER ,
+            tournamentName : {
+                type : DataTypes.STRING ,
                 allowNull : false ,
                 validate : {
-                    isInt : true ,
-                    min : 1
+                    notEmpty : true
                 }
             } ,
             matchNumber : {
@@ -43,7 +44,7 @@ module.exports = function( sequelize , DataTypes) {
                 allowNull : true ,
                 validate : {
                     isInt : true ,
-                    min : 1
+                    min : 0
                 }
             } ,
             player2Score : {
@@ -51,7 +52,7 @@ module.exports = function( sequelize , DataTypes) {
                 allowNull : true ,
                 validate : {
                     isInt : true ,
-                    min : 1
+                    min : 0
                 }
             } ,
             winnerName : {
