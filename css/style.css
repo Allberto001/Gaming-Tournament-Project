@@ -55,3 +55,21 @@ p {
 footer.page-footer {
   margin: 0;
 }
+
+/* Brackets css */
+
+.bracketscontainer {
+  align-items: center ;
+}
+
+.centerItem {
+  margin-top: 18%;
+}
+
+.rightItem {
+  margin-top: 25%;
+}
+.mainCard {
+  background: #616161;
+  margin-top: 10.5px;
+}
