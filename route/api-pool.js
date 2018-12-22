@@ -14,20 +14,21 @@ module.exports = function( app ) {
         '/api/pool/all' ,
         ( request , response ) => {
             console.log();
-            console.log( `# ${request.originalUrl}` );
-            console.log( 'Parameters :' , request.params );
-            console.log( 'Body :' , request.body );
+            console.log( `# Route '${request.originalUrl}'` );
+            console.log( 'request.params =' , request.params );
+            console.log( 'request.body =' , request.body );
 
-            database.pool
-                .findAll( {} )
-                .then(
-                    ( result ) => {
-                        console.log( 'Database Result :' , result );
-                        console.log( 'Database Count :' , result.length );
-                        response.json( result );
-                        console.log( 'OK.' );
-                    }
-                );
+            database.pool.findAll( {} )
+            .then(
+                ( result ) => {
+                    console.log( 'result =' , result );
+                    console.log( 'result.length =' , result.length );
+                    response.json( result );
+                    console.log( 'OK.' );
+                    console.log();
+                    return;
+                }
+            );
         }
     );
 
@@ -36,27 +37,29 @@ module.exports = function( app ) {
         '/api/pool/:tournamentName' ,
         ( request , response ) => {
             console.log();
-            console.log( `# ${request.originalUrl}` );
-            console.log( 'Parameters :' , request.params );
-            console.log( 'Body :' , request.body );
+            console.log( `# Route '${request.originalUrl}'` );
+            console.log( 'request.params =' , request.params );
+            console.log( 'request.body =' , request.body );
 
-            database.pool
-                .findAll(
-                    {
-                        where : {
-                            tournamentName : {
-                                [ database.Sequelize.Op.eq ]: request.params.tournamentName
-                            }
+            database.pool.findAll(
+                {
+                    where : {
+                        tournamentName : {
+                            [ database.Sequelize.Op.eq ]: request.params.tournamentName
                         }
                     }
-                )
-                .then(
-                    ( result ) => {
-                        console.log( 'Database Result :' , result );
-                        response.json( result );
-                        console.log( 'OK.' );
-                    }
-                );
+                }
+            )
+            .then(
+                ( result ) => {
+                    console.log( 'result =' , result );
+                    // console.log( 'result.length =' , result.length );
+                    response.json( result );
+                    console.log( 'OK.' );
+                    console.log();
+                    return;
+                }
+            );
         }
     );
 
@@ -65,63 +68,67 @@ module.exports = function( app ) {
         '/api/pool' ,
         ( request , response ) => {
             console.log();
-            console.log( `# ${request.originalUrl}` );
-            console.log( 'Parameters :' , request.params );
-            console.log( 'Body :' , request.body );
+            console.log( `# Route '${request.originalUrl}'` );
+            console.log( 'request.params =' , request.params );
+            console.log( 'request.body =' , request.body );
 
             var pool = request.body;
 
-            // check for array of pool
+            // Check for array of pool
             if ( pool.pools ) {
+                // Create multiple pools
                 var iterationCounter = 0;
                 var resultBuffer = [];
-                var createPools = function( poolArray ) {
-                    // return promise
+
+                var createPools = function( pools ) {
+                    // Return promise
                     return(
                         new Promise(
                             ( resolve , reject ) => {
                                 console.log( '' );
-                                console.log( '# createPools' );
+                                console.log( '## createPools()' );
                                 iterationCounter += 1;
-                                console.log( 'iterationCounter :' , iterationCounter );
-                                console.log( 'poolArray :' , poolArray );
-                                console.log( 'poolArray.length :' , poolArray.length );
+                                console.log( 'iterationCounter =' , iterationCounter );
+                                console.log( 'pools =' , pools );
+                                console.log( 'pools.length =' , pools.length );
 
-                                // no array: do nothing
-                                if ( poolArray === undefined ) {
+                                // No array: do nothing
+                                if ( pools === undefined ) {
                                     console.log( '' );
-                                    console.log( '# if ( poolArray === undefined )' );
-
+                                    console.log( '### if ( pools === undefined )' );
+                                    console.log( '' );
                                     resolve();
                                 }
-                                // no elements: do nothing
-                                else if ( poolArray.length === 0 ) {
+                                // No elements: do nothing
+                                else if ( pools.length === 0 ) {
                                     console.log( '' );
-                                    console.log( '# if( poolArray.length === 0 )' );
-
+                                    console.log( '### if( pools.length === 0 )' );
+                                    console.log( '' );
                                     resolve();
                                 }
-                                // add first element, recursive loop with the rest
+                                // Add first element, recursive loop with the rest
                                 else {
                                     console.log( '' );
-                                    console.log( '# else' );
-                                    console.log( 'Creating pool for' , poolArray[ 0 ] );
+                                    console.log( '### else' );
+                                    console.log( 'Creating pool for' , pools[ 0 ] );
 
-                                    database.pool
-                                        .create( poolArray[ 0 ] )
-                                        .then(
-                                            ( result ) => {
-                                                console.log( 'Database Result :' , result );
+                                    database.pool.create( pools[ 0 ] )
+                                    .then(
+                                        ( result ) => {
+                                            console.log( 'result =' , result );
+                                            // console.log( 'result.length =' , result.length );
+                                            resultBuffer.push( result );
+                                            console.log( '' );
 
-                                                resultBuffer.push( result );
-                                                return createPools( poolArray.splice( 1 ) );
-                                            }
-                                        )
-                                        .then(
-                                            () => {
-                                                resolve();
-                                            }
-                                        );
+                                            // Return promise
+                                            return createPools( pools.splice( 1 ) );
+                                        }
+                                    )
+                                    .then(
+                                        () => {
+                                            resolve( resultBuffer );
+                                        }
+                                    );
                                 }
                             }
                         )
@@ -130,27 +137,30 @@ module.exports = function( app ) {
 
                 createPools( pool.pools )
                 .then(
-                    () => {
-                        response.json( resultBuffer );
-
+                    ( result ) => {
+                        console.log( 'result =' , result );
+                        console.log( 'result.length =' , result.length );
+                        response.json( result );
                         console.log( 'OK.' );
+                        console.log();
+                        return;
                     }
                 );
             }
             else {
-                database.pool
-                    .create( pool )
-                    .then(
-                        ( result ) => {
-                            console.log( 'Database Result :' , result );
-
-                            response.json( result );
-
-                            console.log( 'OK.' );
-                        }
-                    );
+                // Create one pool
+                database.pool.create( pool )
+                .then(
+                    ( result ) => {
+                        console.log( 'result =' , result );
+                        // console.log( 'result.length =' , result.length );
+                        response.json( result );
+                        console.log( 'OK.' );
+                        console.log();
+                        return;
+                    }
+                );
             }
         }
     );
-
 }

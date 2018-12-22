@@ -15,8 +15,8 @@ var gTournaments;
 getTournamentName = function() {
     console.group( 'FUNCTION getTournamentName()' );
 
-    var urlPathArray = window.location.pathname.split( '/' );
-    var tournamentName = urlPathArray[ 1 ];
+    var pathnameSplit = window.location.pathname.split( '-' );
+    var tournamentName = pathnameSplit[ pathnameSplit.length - 1 ];
 
     console.logValue( 'tournamentName' , tournamentName );
     console.groupEnd();

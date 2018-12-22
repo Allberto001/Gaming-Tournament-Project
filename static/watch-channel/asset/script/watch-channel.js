@@ -16,8 +16,8 @@ var gFirebaseDatabaseReference;
 getTournamentName = function() {
     console.group( 'FUNCTION getTournamentName()' );
 
-    var urlPathArray = window.location.pathname.split( '/' );
-    var tournamentName = urlPathArray[ 2 ];
+    var pathnameSplit = window.location.pathname.split( '-' );
+    var tournamentName = pathnameSplit[ pathnameSplit.length - 1 ];
 
     console.logValue( 'tournamentName' , tournamentName );
     console.groupEnd();
@@ -96,46 +96,61 @@ initializeFirebase = function() {
     console.logValue( 'gChannel' , gChannel );
 
     // Initialize Firebase
-    var firebaseConfig = {
-        apiKey : process.env.FIREBASE_API_KEY ,
-        authDomain : 'fsfp-team-project-02.firebaseapp.com' ,
-        databaseURL : 'https://fsfp-team-project-02.firebaseio.com' ,
-        projectId : 'fsfp-team-project-02' ,
-        storageBucket : 'fsfp-team-project-02.appspot.com' ,
-        messagingSenderId : '702675547554'
-    };
-    firebase.initializeApp( firebaseConfig );
-    gFirebaseDatabaseReference = firebase.database().ref( gChannel.tournamentName ).limitToLast( 1 );
-    gFirebaseDatabaseReference
-        .on(
-            'child_added' ,
-            ( childSnapshot , previousChildKey ) => {
-                console.group( 'firebaseDatabaseReference.on()' );
-                console.logValue( 'childSnapshot' , childSnapshot );
-                console.logValue( 'previousChildKey' , previousChildKey );
-                console.logValue( 'childSnapshot.val()' , childSnapshot.val() );
+    $.ajax(
+        {
+            url: '/api/util/env/FIREBASE_API_KEY' ,
+            method : 'GET'
+        }
+    )
+    .then(
+        ( result ) => {
+            console.logValue( 'result' , result );
 
-                var message = childSnapshot.val();
-                $( '#live-updates' ).append( $( '<p>' ).text( message ) );
+            var firebaseConfig = {
+                apiKey : result ,
+                authDomain : 'fsfp-team-project-02.firebaseapp.com' ,
+                databaseURL : 'https://fsfp-team-project-02.firebaseio.com' ,
+                projectId : 'fsfp-team-project-02' ,
+                storageBucket : 'fsfp-team-project-02.appspot.com' ,
+                messagingSenderId : '702675547554'
+            };
+            firebase.initializeApp( firebaseConfig );
+            gFirebaseDatabaseReference = firebase.database().ref( gChannel.tournamentName ).limitToLast( 1 );
+            console.logValue( 'gFirebaseDatabaseReference.toString()' , gFirebaseDatabaseReference.toString() );
+            gFirebaseDatabaseReference
+            .on(
+                'child_added' ,
+                ( childSnapshot , previousChildKey ) => {
+                    console.group( 'firebaseDatabaseReference.on()' );
+                    console.logValue( 'childSnapshot' , childSnapshot );
+                    console.logValue( 'previousChildKey' , previousChildKey );
+                    console.logValue( 'childSnapshot.val()' , childSnapshot.val() );
 
-                $.ajax(
-                    {
-                        url: `/api/tournament/${gTournamentName}` ,
-                        method : 'GET'
-                    }
-                )
-                .then(
-                    ( tournaments ) => {
-                        console.logValue( 'tournaments' , tournaments );
+                    var message = childSnapshot.val();
+                    $( '#live-updates' ).append( $( '<p>' ).text( message ) );
 
-                        gTournaments = tournaments;
-                        updateBracket();
-                    }
-                );
+                    $.ajax(
+                        {
+                            url: `/api/tournament/${gTournamentName}` ,
+                            method : 'GET'
+                        }
+                    )
+                    .then(
+                        ( tournaments ) => {
+                            console.logValue( 'tournaments' , tournaments );
 
-                console.groupEnd();
-            }
-        );
+                            gTournaments = tournaments;
+                            updateBracket();
+
+                            // return;
+                        }
+                    );
+                }
+            );
+
+            return;
+        }
+    );
 
     console.groupEnd();
 }

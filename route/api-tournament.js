@@ -16,22 +16,21 @@ module.exports = function( app ) {
         '/api/tournament/all' ,
         ( request , response ) => {
             console.log();
-            console.log( `# ${request.originalUrl}` );
-            console.log( 'Parameters :' , request.params );
-            console.log( 'Body :' , request.body );
+            console.log( `# Route '${request.originalUrl}'` );
+            console.log( 'request.params =' , request.params );
+            console.log( 'request.body =' , request.body );
 
-            database.tournament
-                .findAll( {} )
-                .then(
-                    ( result ) => {
-                        console.log( 'Database Result :' , result );
-                        console.log( 'Database Count :' , result.length );
-
-                        response.json( result );
-
-                        console.log( 'OK.' );
-                    }
-                );
+            database.tournament.findAll( {} )
+            .then(
+                ( result ) => {
+                    console.log( 'result =' , result );
+                    console.log( 'result.length =' , result.length );
+                    response.json( result );
+                    console.log( 'OK.' );
+                    console.log();
+                    return;
+                }
+            );
         }
     );
 
@@ -40,29 +39,29 @@ module.exports = function( app ) {
         '/api/tournament/:tournamentName' ,
         ( request , response ) => {
             console.log();
-            console.log( `# ${request.originalUrl}` );
-            console.log( 'Parameters :' , request.params );
-            console.log( 'Body :' , request.body );
+            console.log( `# Route '${request.originalUrl}'` );
+            console.log( 'request.params =' , request.params );
+            console.log( 'request.body =' , request.body );
 
-            database.tournament
-                .findAll(
-                    {
-                        where : {
-                            tournamentName : {
-                                [ database.Sequelize.Op.eq ]: request.params.tournamentName
-                            }
+            database.tournament.findAll(
+                {
+                    where : {
+                        tournamentName : {
+                            [ database.Sequelize.Op.eq ]: request.params.tournamentName
                         }
                     }
-                )
-                .then(
-                    ( result ) => {
-                        console.log( 'Database Result :' , result );
-
-                        response.json( result );
-
-                        console.log( 'OK.' );
-                    }
-                );
+                }
+            )
+            .then(
+                ( result ) => {
+                    console.log( 'result =' , result );
+                    console.log( 'result.length =' , result.length );
+                    response.json( result );
+                    console.log( 'OK.' );
+                    console.log();
+                    return;
+                }
+            );
         }
     );
 
@@ -71,32 +70,32 @@ module.exports = function( app ) {
         '/api/tournament/:tournamentName/:matchNumber' ,
         ( request , response ) => {
             console.log();
-            console.log( `# ${request.originalUrl}` );
-            console.log( 'Parameters :' , request.params );
-            console.log( 'Body :' , request.body );
+            console.log( `# Route '${request.originalUrl}'` );
+            console.log( 'request.params =' , request.params );
+            console.log( 'request.body =' , request.body );
 
-            database.tournament
-                .findOne(
-                    {
-                        where : {
-                            tournamentName : {
-                                [ database.Sequelize.Op.eq ]: request.params.tournamentName
-                            } ,
-                            matchNumber : {
-                                [ database.Sequelize.Op.eq ]: request.params.matchNumber
-                            }
+            database.tournament.findOne(
+                {
+                    where : {
+                        tournamentName : {
+                            [ database.Sequelize.Op.eq ]: request.params.tournamentName
+                        } ,
+                        matchNumber : {
+                            [ database.Sequelize.Op.eq ]: request.params.matchNumber
                         }
                     }
-                )
-                .then(
-                    ( result ) => {
-                        console.log( 'Database Result :' , result );
-
-                        response.json( result );
-
-                        console.log( 'OK.' );
-                    }
-                );
+                }
+            )
+            .then(
+                ( result ) => {
+                    console.log( 'result =' , result );
+                    // console.log( 'result.length =' , result.length );
+                    response.json( result );
+                    console.log( 'OK.' );
+                    console.log();
+                    return;
+                }
+            );
         }
     );
 
@@ -105,91 +104,99 @@ module.exports = function( app ) {
         '/api/tournament' ,
         ( request , response ) => {
             console.log();
-            console.log( `# ${request.originalUrl}` );
-            console.log( 'Parameters :' , request.params );
-            console.log( 'Body :' , request.body );
+            console.log( `# Route '${request.originalUrl}'` );
+            console.log( 'request.params =' , request.params );
+            console.log( 'request.body =' , request.body );
 
             var tournament = request.body;
 
-            // for array of tourmanent
+            // Check for array of tournament matches
             if ( tournament.tournaments ) {
+                // Create multiple tournament matches
                 var iterationCounter = 0;
                 var resultBuffer = [];
-                var createPools = function( poolArray ) {
-                    // return promise
+
+                var createTournaments = function( tournaments ) {
+                    // Return promise
                     return(
                         new Promise(
                             ( resolve , reject ) => {
                                 console.log( '' );
-                                console.log( '# createPools' );
+                                console.log( '## createTournaments()' );
                                 iterationCounter += 1;
-                                console.log( 'iterationCounter :' , iterationCounter );
-                                console.log( 'poolArray :' , poolArray );
-                                console.log( 'poolArray.length :' , poolArray.length );
+                                console.log( 'iterationCounter =' , iterationCounter );
+                                console.log( 'tournaments =' , tournaments );
+                                console.log( 'tournaments.length =' , tournaments.length );
 
-                                // no array: do nothing
-                                if ( poolArray === undefined ) {
+                                // No array: do nothing
+                                if ( tournaments === undefined ) {
                                     console.log( '' );
-                                    console.log( '# if ( poolArray === undefined )' );
-
+                                    console.log( '### if ( tournaments === undefined )' );
+                                    console.log( '' );
                                     resolve();
                                 }
-                                // no elements: do nothing
-                                else if ( poolArray.length === 0 ) {
+                                // No elements: do nothing
+                                else if ( tournaments.length === 0 ) {
                                     console.log( '' );
-                                    console.log( '# if( poolArray.length === 0 )' );
-
+                                    console.log( '### if( tournaments.length === 0 )' );
+                                    console.log( '' );
                                     resolve();
                                 }
-                                // add first element, recursive loop with the rest
+                                // Add first element, recursive loop with the rest
                                 else {
                                     console.log( '' );
-                                    console.log( '# else' );
-                                    console.log( 'Creating tournament for' , poolArray[ 0 ] );
+                                    console.log( '### else' );
+                                    console.log( 'Creating tournament match for' , tournaments[ 0 ] );
 
-                                    database.tournament
-                                        .create( poolArray[ 0 ] )
-                                        .then(
-                                            ( result ) => {
-                                                console.log( 'Database Result :' , result );
+                                    database.tournament.create( tournaments[ 0 ] )
+                                    .then(
+                                        ( result ) => {
+                                            console.log( 'result =' , result );
+                                            // console.log( 'result.length =' , result.length );
+                                            resultBuffer.push( result );
+                                            console.log( '' );
 
-                                                resultBuffer.push( result );
-                                                return createPools( poolArray.splice( 1 ) );
-                                            }
-                                        )
-                                        .then(
-                                            () => {
-                                                resolve();
-                                            }
-                                        );
+                                            // Return promise
+                                            return createTournaments( tournaments.splice( 1 ) );
+                                        }
+                                    )
+                                    .then(
+                                        () => {
+                                            resolve( resultBuffer );
+                                        }
+                                    );
                                 }
                             }
                         )
                     );
                 }
 
-                createPools( tournament.tournaments )
+                createTournaments( tournament.tournaments )
                 .then(
-                    () => {
-                        response.json( resultBuffer );
-
+                    ( result ) => {
+                        console.log( 'result =' , result );
+                        console.log( 'result.length =' , result.length );
+                        response.json( result );
                         console.log( 'OK.' );
+                        console.log();
+                        return;
                     }
                 );
             }
             else {
-                database.tournament
-                    .create( tournament )
-                    .then(
-                        ( result ) => {
-                            console.log( 'Database Result :' , result );
-
-                            response.json( result );
-
-                            console.log( 'OK.' );
-                        }
-                    );
-            }
+                // Create one tournament match
+                database.tournament.create( tournament )
+                .then(
+                    ( result ) => {
+                        console.log( 'result =' , result );
+                        // console.log( 'result.length =' , result.length );
+                        response.json( result );
+                        console.log( 'OK.' );
+                        console.log();
+                        return;
+                    }
+                );
+        }
 
         }
     );
@@ -199,73 +206,67 @@ module.exports = function( app ) {
         '/api/tournament' ,
         ( request , response ) => {
             console.log();
-            console.log( `# ${request.originalUrl}` );
-            console.log( 'Parameters :' , request.params );
-            console.log( 'Body :' , request.body );
+            console.log( `# Route PUT '${request.originalUrl}'` );
+            console.log( 'request.params =' , request.params );
+            console.log( 'request.body =' , request.body );
 
             var tournament = request.body;
             var databaseResult;
-            database.tournament
-                .update(
-                    tournament ,
-                    {
-                        where : {
-                            tournamentName : {
-                                [ database.Sequelize.Op.eq ]: tournament.tournamentName
-                            } ,
-                            matchNumber : {
-                                [ database.Sequelize.Op.eq ]: tournament.matchNumber
-                            }
+
+            database.tournament.update(
+                tournament ,
+                {
+                    where : {
+                        tournamentName : {
+                            [ database.Sequelize.Op.eq ]: tournament.tournamentName
+                        } ,
+                        matchNumber : {
+                            [ database.Sequelize.Op.eq ]: tournament.matchNumber
                         }
                     }
-                )
-                .then(
-                    ( result ) => {
-                        console.log( 'Database Result :' , result );
+                }
+            )
+            .then(
+                ( result ) => {
+                    // console.log( 'result =' , result );
+                    // console.log( 'result.length =' , result.length );
+                    databaseResult = result;
+                    return;
+                }
+            )
+            .then(
+                // Create Firebase database message
+                () => {
+                    if ( tournament.winnerName ) {
+                        var firebaseDatabaseReference = firebase.database().ref( tournament.tournamentName );
+                        var message = `${tournament.tournamentName} match ${tournament.matchNumber}: ${tournament.player1Name} vs ${tournament.player2Name} score is ${tournament.player1Score}-${tournament.player2Score}. ${tournament.winnerName} wins!`;
+                        console.log( 'firebaseDatabaseReference.toString()' , firebaseDatabaseReference.toString() );
+                        console.log( 'message' , message );
 
-                        databaseResult = result;
+                        // Return promise
+                        return (
+                            firebaseDatabaseReference.push( message )
+                            .then(
+                                () => {
+                                    console.log( 'Created Firebase database message.' );
+                                    return;
+                                }
+                            )
+                        );
+                    }
+                    else {
                         return;
                     }
-                )
-                .then(
-                    () => {
-                        if ( tournament.winnerName ) {
-                            console.log( 'Pushing message' );
-
-                            message = `${tournament.tournamentName} match ${tournament.matchNumber}: ${tournament.player1Name} ${tournament.player1Score} - ${tournament.player2Score} ${tournament.player2Name}. ${tournament.winnerName} wins!`;
-                            console.log( 'message' , message );
-
-                            // Initialize Firebase
-                            if ( !firebase.apps.length ) {
-                                var firebaseConfig = {
-                                    apiKey : process.env.FIREBASE_API_KEY ,
-                                    authDomain : 'fsfp-team-project-02.firebaseapp.com' ,
-                                    databaseURL : 'https://fsfp-team-project-02.firebaseio.com' ,
-                                    projectId : 'fsfp-team-project-02' ,
-                                    storageBucket : 'fsfp-team-project-02.appspot.com' ,
-                                    messagingSenderId : '702675547554'
-                                };
-                                firebase.initializeApp( firebaseConfig );
-                            }
-                            var firebaseDatabaseReference = firebase.database().ref( tournament.tournamentName );
-                            firebaseDatabaseReference
-                                .push( message )
-                                .then(
-                                    () => {
-                                        console.log( 'Pushed message.' );
-                                        return;
-                                    }
-                                );
-                        }
-                    }
-                )
-                .then(
-                    () => {
-                        response.json( databaseResult );
-
-                        console.log( 'OK.' );
-                    }
-                );
+                }
+            )
+            .then(
+                () => {
+                    response.json( databaseResult );
+                    console.log( 'OK.' );
+                    console.log();
+                    return;
+                }
+            );
         }
     );
 }

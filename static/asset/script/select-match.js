@@ -15,8 +15,8 @@ var gTournaments;
 getTournamentName = function() {
     console.group( 'FUNCTION getTournamentName()' );
 
-    var urlPathArray = window.location.pathname.split( '/' );
-    var tournamentName = urlPathArray[ 1 ];
+    var pathnameSplit = window.location.pathname.split( '-' );
+    var tournamentName = pathnameSplit[ pathnameSplit.length - 1 ];
 
     console.logValue( 'tournamentName' , tournamentName );
     console.groupEnd();
@@ -58,7 +58,7 @@ createElements = function() {
             var divJQ = $( '<div>' )
                 .attr( 'id' , `select-match-${tournament.tournamentName}-${tournament.matchNumber}` )
                 .attr( 'class' , 'alert alert-secondary py-4' )
-                .html( `<a href="/${tournament.tournamentName}/${tournament.matchNumber}/enter-match-result" class="alert-link">Match ${tournament.matchNumber}</a>: ${player1Name} vs ${player2Name}` );
+                .html( `<a href="/enter-match-result-${tournament.tournamentName}-${tournament.matchNumber}" class="alert-link">Match ${tournament.matchNumber}</a>: ${player1Name} vs ${player2Name}` );
             selectMatchCardBody.append( divJQ );
         }
     );

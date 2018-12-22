@@ -1,17 +1,19 @@
 {
   "name": "fsfp-team-project-02",
   "version": "1.0.0",
-  "description": "",
+  "description": "Full Stack Flex Program Team Project 02: Flamingo",
   "main": "server.js",
   "scripts": {
+    "develop-start" : "cross-env NODE_ENV=development SEQUELIZE_FORCE_SYNC=false FIREBASE_API_KEY=AIzaSyCV8bbcKO_RdS_B1TpLoVRb7tB6fVD1pwU node server.js" ,
+    "develop-watch" : "cross-env NODE_ENV=development SEQUELIZE_FORCE_SYNC=false FIREBASE_API_KEY=AIzaSyCV8bbcKO_RdS_B1TpLoVRb7tB6fVD1pwU nodemon server.js" ,
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
     "watch": "nodemon server.js"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
   "dependencies": {
+    "cross-env": "^5.2.0",
     "express": "^4.16.4",
     "nodemon": "^1.18.9",
     "mysql2": "^1.6.4",
