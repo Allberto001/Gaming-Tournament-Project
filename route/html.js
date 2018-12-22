@@ -9,6 +9,23 @@ var path = require( 'path' );
 
 module.exports = function( app ) {
 
+    // GET create tournament (default)
+    app.get(
+        '/' ,
+        ( request , response ) => {
+            console.log();
+            console.log( `# ${request.originalUrl}` );
+            console.log( 'Parameters :' , request.params );
+            console.log( 'Body :' , request.body );
+
+            var HTMLPath = path.join( __dirname , '../static/create-tournament.html' );
+            console.log( HTMLPath );
+            response.sendFile( HTMLPath );
+
+            console.log( 'OK.' );
+        }
+    );
+
     // GET create tournament
     app.get(
         '/create-tournament' ,
