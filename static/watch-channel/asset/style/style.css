@@ -11,6 +11,10 @@ nav .brand-logo {
   color:#f50057;
 }
 
+body {
+  font-family: 'Gloria Hallelujah', cursive, Arial, Helvetica, sans-serif;
+}
+
 p {
   line-height: 2rem;
 }
@@ -72,4 +76,6 @@ footer.page-footer {
   background: #616161;
   margin-top: 10.5px;
 }
+
+
 

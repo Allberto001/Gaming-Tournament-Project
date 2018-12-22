@@ -16,8 +16,8 @@ var gTournament;
 getTournamentName = function() {
     console.group( 'FUNCTION getTournamentName()' );
 
-    var urlPathArray = window.location.pathname.split( '/' );
-    var tournamentName = urlPathArray[ 1 ];
+    var pathnameSplit = window.location.pathname.split( '-' );
+    var tournamentName = pathnameSplit[ pathnameSplit.length - 2 ];
 
     console.logValue( 'tournamentName' , tournamentName );
     console.groupEnd();
@@ -31,8 +31,8 @@ getTournamentName = function() {
 getMatchNumber = function() {
     console.group( 'FUNCTION getMatchNumber()' );
 
-    var urlPathArray = window.location.pathname.split( '/' );
-    var matchNumber = urlPathArray[ 2 ];
+    var pathnameSplit = window.location.pathname.split( '-' );
+    var matchNumber = pathnameSplit[ pathnameSplit.length - 1 ];
 
     console.logValue( 'matchNumber' , matchNumber );
     console.groupEnd();
@@ -150,41 +150,60 @@ handleSubmit = function( event ) {
     );
     console.logValue( 'updateNextTournament' , updateNextTournament );
 
-    // update this tournament match
-    $.ajax(
-        {
-            url: '/api/tournament' ,
-            method : 'PUT' ,
-            data : updateThisTournament
-        }
-    )
-    // update next tournament match
-    .then(
-        ( response ) => {
-            console.logValue( 'response' , response );
-
-            // check if not last match
-            if ( gTournament.matchNumber !== 3 ) {
+    // Check if the last match
+    if ( gTournament.matchNumber !== 3 ) {
+        // Update next tournament match
+        $.ajax(
+            {
+                url: '/api/tournament' ,
+                method : 'PUT' ,
+                data : updateNextTournament
+            }
+        )
+        // Update this tournament match
+        .then(
+            ( response ) => {
+                console.logValue( 'response' , response );
                 return $.ajax(
                     {
                         url: '/api/tournament' ,
                         method : 'PUT' ,
-                        data : updateNextTournament
+                        data : updateThisTournament
                     }
                 );
             }
-            else {
-                return null;
-            }
-        }
-    )
-    .then(
-        ( response ) => {
-            console.logValue( 'response' , response );
+        )
+        // Redirect
+        .then(
+            ( response ) => {
+                console.logValue( 'response' , response );
 
-            redirect( `/${gTournament.tournamentName}/select-match` );
-        }
-    );
+                redirect( `/select-match-${gTournament.tournamentName}` );
+            }
+        );
+    }
+    else {
+        // Uupdate only this match
+        $.ajax(
+            {
+                url: '/api/tournament' ,
+                method : 'PUT' ,
+                data : updateThisTournament
+            }
+        )
+        // Redirect
+        .then(
+            ( response ) => {
+                console.logValue( 'response' , response );
+
+                redirect( `/select-match-${gTournament.tournamentName}` );
+            }
+        );
+    }
+
+    // if
+
+
 
     console.groupEnd();
 }

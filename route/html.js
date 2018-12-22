@@ -45,7 +45,7 @@ module.exports = function( app ) {
 
     // GET select match
     app.get(
-        '/:tournamentName/select-match' ,
+        '/select-match-:tournamentName' ,
         ( request , response ) => {
             console.log();
             console.log( `# ${request.originalUrl}` );
@@ -62,7 +62,7 @@ module.exports = function( app ) {
 
     // GET enter match result
     app.get(
-        '/:tournamentName/:matchNumber/enter-match-result' ,
+        '/enter-match-result-:tournamentName-:matchNumber' ,
         ( request , response ) => {
             console.log();
             console.log( `# ${request.originalUrl}` );
@@ -96,7 +96,7 @@ module.exports = function( app ) {
 
     // GET watch channel
     app.get(
-        '/watch-channel/:tournamentName' ,
+        '/watch-channel-:tournamentName' ,
         ( request , response ) => {
             console.log();
             console.log( `# ${request.originalUrl}` );
