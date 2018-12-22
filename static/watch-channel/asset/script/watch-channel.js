@@ -63,22 +63,52 @@ updateBracket = function() {
     console.logValue( 'gTournaments' , gTournaments );
 
     if ( gTournaments[ 0 ].player1Name ) {
-        $( '#match-1-player-1' ).text( gTournaments[ 0 ].player1Name );
+        var playerName = gTournaments[ 0 ].player1Name;
+        var playerScore = '';
+        if ( ( gTournaments[ 0 ].player1Score !== null ) && ( gTournaments[ 0 ].player1Name !== undefined ) ) {
+            playerScore = ` : ${ gTournaments[ 0 ].player1Score}`;
+        }
+        $( '#match-1-player-1' ).text( `${playerName}${playerScore}` );
     }
     if ( gTournaments[ 0 ].player2Name ) {
-        $( '#match-1-player-2' ).text( gTournaments[ 0 ].player2Name );
+        var playerName = gTournaments[ 0 ].player2Name;
+        var playerScore = '';
+        if ( ( gTournaments[ 0 ].player2Score !== null ) && ( gTournaments[ 0 ].player2Name !== undefined ) ) {
+            playerScore = ` : ${ gTournaments[ 0 ].player2Score}`;
+        }
+        $( '#match-1-player-2' ).text( `${playerName}${playerScore}` );
     }
     if ( gTournaments[ 1 ].player1Name ) {
-        $( '#match-2-player-1' ).text( gTournaments[ 1 ].player1Name );
+        var playerName = gTournaments[ 1 ].player1Name;
+        var playerScore = '';
+        if ( ( gTournaments[ 1 ].player1Score !== null ) && ( gTournaments[ 1 ].player1Name !== undefined ) ) {
+            playerScore = ` : ${ gTournaments[ 1 ].player1Score}`;
+        }
+        $( '#match-2-player-1' ).text( `${playerName}${playerScore}` );
     }
     if ( gTournaments[ 1 ].player2Name ) {
-        $( '#match-2-player-2' ).text( gTournaments[ 1 ].player2Name );
+        var playerName = gTournaments[ 1 ].player2Name;
+        var playerScore = '';
+        if ( ( gTournaments[ 1 ].player2Score !== null ) && ( gTournaments[ 1 ].player2Name !== undefined ) ) {
+            playerScore = ` : ${ gTournaments[ 1 ].player2Score}`;
+        }
+        $( '#match-2-player-2' ).text( `${playerName}${playerScore}` );
     }
     if ( gTournaments[ 2 ].player1Name ) {
-        $( '#match-3-player-1' ).text( gTournaments[ 2 ].player1Name );
+        var playerName = gTournaments[ 2 ].player1Name;
+        var playerScore = '';
+        if ( ( gTournaments[ 2 ].player1Score !== null ) && ( gTournaments[ 2 ].player1Name !== undefined ) ) {
+            playerScore = ` : ${ gTournaments[ 2 ].player1Score}`;
+        }
+        $( '#match-3-player-1' ).text( `${playerName}${playerScore}` );
     }
     if ( gTournaments[ 2 ].player2Name ) {
-        $( '#match-3-player-2' ).text( gTournaments[ 2 ].player2Name );
+        var playerName = gTournaments[ 2 ].player2Name;
+        var playerScore = '';
+        if ( ( gTournaments[ 2 ].player2Score !== null ) && ( gTournaments[ 2 ].player2Name !== undefined ) ) {
+            playerScore = ` : ${ gTournaments[ 2 ].player2Score}`;
+        }
+        $( '#match-3-player-2' ).text( `${playerName}${playerScore}` );
     }
     if ( gTournaments[ 2 ].winnerName ) {
         $( '#match-3-winner' ).text( gTournaments[ 2 ].winnerName );
