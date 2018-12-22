@@ -15,22 +15,21 @@ module.exports = function( app ) {
         '/api/channel/all' ,
         ( request , response ) => {
             console.log();
-            console.log( `# ${request.originalUrl}` );
-            console.log( 'Parameters :' , request.params );
-            console.log( 'Body :' , request.body );
+            console.log( `# Route '${request.originalUrl}'` );
+            console.log( 'request.params =' , request.params );
+            console.log( 'request.body =' , request.body );
 
-            database.channel
-                .findAll( {} )
-                .then(
-                    ( result ) => {
-                        console.log( 'Database Result :' , result );
-                        console.log( 'Database Count :' , result.length );
-
-                        response.json( result );
-
-                        console.log( 'OK.' );
-                    }
-                );
+            database.channel.findAll( {} )
+            .then(
+                ( result ) => {
+                    console.log( 'result =' , result );
+                    console.log( 'result.length =' , result.length );
+                    response.json( result );
+                    console.log( 'OK.' );
+                    console.log();
+                    return;
+                }
+            );
         }
     );
 
@@ -39,29 +38,29 @@ module.exports = function( app ) {
         '/api/channel/:tournamentName' ,
         ( request , response ) => {
             console.log();
-            console.log( `# ${request.originalUrl}` );
-            console.log( 'Parameters :' , request.params );
-            console.log( 'Body :' , request.body );
+            console.log( `# Route '${request.originalUrl}'` );
+            console.log( 'request.params =' , request.params );
+            console.log( 'request.body =' , request.body );
 
-            database.channel
-                .findOne(
-                    {
-                        where : {
-                            tournamentName : {
-                                [ database.Sequelize.Op.eq ]: request.params.tournamentName
-                            }
+            database.channel.findOne(
+                {
+                    where : {
+                        tournamentName : {
+                            [ database.Sequelize.Op.eq ]: request.params.tournamentName
                         }
                     }
-                )
-                .then(
-                    ( result ) => {
-                        console.log( 'Database Result :' , result );
-
-                        response.json( result );
-
-                        console.log( 'OK.' );
-                    }
-                );
+                }
+            )
+            .then(
+                ( result ) => {
+                    console.log( 'result =' , result );
+                    // console.log( 'result.length =' , result.length );
+                    response.json( result );
+                    console.log( 'OK.' );
+                    console.log();
+                    return;
+                }
+            );
         }
     );
 
@@ -70,55 +69,50 @@ module.exports = function( app ) {
         '/api/channel' ,
         ( request , response ) => {
             console.log();
-            console.log( `# ${request.originalUrl}` );
-            console.log( 'Parameters :' , request.params );
-            console.log( 'Body :' , request.body );
+            console.log( `# Route '${request.originalUrl}'` );
+            console.log( 'request.params =' , request.params );
+            console.log( 'request.body =' , request.body );
 
             var channel = request.body;
             var databaseResult;
-            database.channel
-                .create( channel )
-                .then(
-                    ( result ) => {
-                        console.log( 'Database Result :' , result );
 
-                        databaseResult = result;
-                        return;
-                    }
-                )
-                .then(
-                    () => {
-                        // Initialize Firebase
-                        if ( !firebase.apps.length ) {
-                            var firebaseConfig = {
-                                apiKey : process.env.FIREBASE_API_KEY ,
-                                authDomain : 'fsfp-team-project-02.firebaseapp.com' ,
-                                databaseURL : 'https://fsfp-team-project-02.firebaseio.com' ,
-                                projectId : 'fsfp-team-project-02' ,
-                                storageBucket : 'fsfp-team-project-02.appspot.com' ,
-                                messagingSenderId : '702675547554'
-                            };
-                            firebase.initializeApp( firebaseConfig );
-                        }
-                        var firebaseDatabaseReference = firebase.database().ref();    // root
-                        firebaseDatabaseReference
-                            .child( channel.tournamentName )
-                            .set( 'dummy' )
-                            .then(
-                                () => {
-                                    console.log( 'Created tournament child.' );
-                                    return;
-                                }
-                            );
-                    }
-                )
-                .then(
-                    () => {
-                        response.json( databaseResult );
+            database.channel.create( channel )
+            .then(
+                ( result ) => {
+                    console.log( 'result =' , result );
+                    // console.log( 'result.length =' , result.length );
+                    databaseResult = result;
+                    return;
+                }
+            )
+            .then(
+                // Create Firebase database path
+                () => {
+                    var rootFirebaseDatabaseReference = firebase.database().ref();
+                    var childFirebaseDatabaseReference = rootFirebaseDatabaseReference.child( channel.tournamentName );
+                    console.log( 'rootFirebaseDatabaseReference.toString() =' , rootFirebaseDatabaseReference.toString() );
+                    console.log( 'childFirebaseDatabaseReference.toString() =' , childFirebaseDatabaseReference.toString() );
 
-                        console.log( 'OK.' );
-                    }
-                );
+                    // Return promise
+                    return (
+                        childFirebaseDatabaseReference.set( 'dummy' )
+                        .then(
+                            () => {
+                                console.log( `Created Firebase database path '${childFirebaseDatabaseReference.toString()}'` );
+                                return;
+                            }
+                        )
+                    );
+                }
+            )
+            .then(
+                () => {
+                    response.json( databaseResult );
+                    console.log( 'OK.' );
+                    console.log();
+                    return;
+                }
+            );
         }
     );
 }
